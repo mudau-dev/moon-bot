@@ -1,0 +1,1962 @@
+{
+  "120363424373764986@g.us": {
+    "welcome": {
+      "enabled": true,
+      "message": "hello @user to *@gname* this is the official moonlight bots domain\n- invite members\n- make friends\n- have fun\nGET STARTED USE\n`.reg <you age>`\nor to see all cmds use `.menu` \n@p"
+    },
+    "leave": {
+      "enabled": true,
+      "message": "😢 @user left @gname.\nMembers: @count"
+    },
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "welcomeEnabled": false,
+    "leaveEnabled": false,
+    "welcomeMessage": "hello @user to *@gname* this is the official moonlight bots domain\n- invite members\n- make friends\n- have fun\nGET STARTED USE\n`.reg <you age>`\nor to see all cmds use `.menu` \n@p",
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count"
+  },
+  "120363424570705698@g.us": {
+    "welcome": {
+      "enabled": true,
+      "message": "👋 Welcome @user to @gname.\nMembers: @count \n@p"
+    },
+    "leave": {
+      "enabled": true,
+      "message": "😢 @user left @gname.\nMembers: @count"
+    },
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "welcomeEnabled": false,
+    "leaveEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count"
+  },
+  "120363409682822724@g.us": {
+    "welcome": {
+      "enabled": true,
+      "message": "👋 Welcome @user to @gname.\nMembers: @count \n@p"
+    },
+    "leave": {
+      "enabled": true,
+      "message": "😢 @user left @gname.\nMembers: @count"
+    },
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "welcomeEnabled": false,
+    "leaveEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count"
+  },
+  "120363284187717000@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hello @user join moonlight casino 1 to gamble have fun",
+    "leaveEnabled": true,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363408876837824@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363420478942725@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hlo @user to *@gname* you are the *@count* member in the group have fun. Don't forget to introduce yourself",
+    "leaveEnabled": true,
+    "leaveMessage": "@user just noticed how useless he/she is and left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "186835858882746@lid": 1,
+        "4991288893522@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363425011863849@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363427003186265@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363426794370953@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363407583634436@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363408488386663@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hlo @user to @gname @p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363407348085474@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363408469359114@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "142941595107345@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363417007529578@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hello @user welcome to *@gname* have fun and dont forget to introduce your self",
+    "leaveEnabled": true,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "74269228798048@lid": 1,
+        "93695282036906@lid": 1,
+        "142941595107345@lid": 1,
+        "120363417007529578@g.us": 1,
+        "19727422361823@lid": 1,
+        "269105756160233@lid": 2,
+        "103178636894334@lid": 0,
+        "245466608455815@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "groupId": "120363417007529578@g.us"
+  },
+  "120363406636102925@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363407133653525@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363427296927470@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363425004827863@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363407703143498@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363426023394278@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363404474639172@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hello @user welcome to *@gname* have fun and dont forget to introduce your self",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "238719130964210@lid": 2,
+        "20856898105365@lid": 1,
+        "262427434348696@lid": 1,
+        "242726452899879@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363404474639172@g.us"
+  },
+  "120363183555860484@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363408787129072@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363424100908014@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363345939812155@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363425148362666@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count \n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    }
+  },
+  "120363425323810767@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "message \nWelcome to *Cσnѕσятιυм ii*. The place for weebs and everything fictional... New members should do thier intro which must contain\n- Name \n- Gender\n- Age\n- Top5 fictional works and characters \n- Picture (optional)",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363047460640916@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "delete",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363426422281311@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "welcome @161268036018393",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363426422281311@g.us"
+  },
+  "120363218301727238@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363420091759438@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363427397994092@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363428816450948@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363427748525207@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363409196503779@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363409196503779@g.us"
+  },
+  "120363427966918218@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    }
+  },
+  "120363410062026114@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to @gname.\nMembers: @count\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "😢 @user left @gname.\nMembers: @count",
+    "antilink": {
+      "enabled": true,
+      "action": "delete",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363410062026114@g.us"
+  },
+  "120363408958694870@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hello @user to *@gname* have fun and don't forget to introduce you self",
+    "leaveEnabled": true,
+    "leaveMessage": "good by @user",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 5,
+      "warns": {
+        "212472703266847@lid": 1,
+        "215088036360349@lid": 1,
+        "165017542475796@lid": 1,
+        "184585530921063@lid": 1,
+        "114401168367638@lid": 1,
+        "144045150048275@lid": 2
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "groupId": "120363408958694870@g.us"
+  },
+  "120363425982111915@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363425982111915@g.us"
+  },
+  "120363425935078599@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363425935078599@g.us"
+  },
+  "120363427172005960@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "hello new @user welcome to *@gname* dont forget to introduce you self\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "184727382274127@lid": 1,
+        "207241584107774@lid": 1,
+        "201468745384021@lid": 1,
+        "166056857440467@lid": 1,
+        "83812629377050@lid": 1,
+        "6580342931682@lid": 1,
+        "184989207535661@lid": 0,
+        "181179571523613@lid": 2,
+        "95181491703932@lid": 2,
+        "30323123454138@lid": 1,
+        "139466865955048@lid": 1,
+        "123433753034958@lid": 1,
+        "197427516669996@lid": 0,
+        "107215973314576@lid": 1,
+        "100214807490765@lid": 2,
+        "133724159111184@lid": 1,
+        "121384785186936@lid": 1,
+        "181454415909061@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363427172005960@g.us"
+  },
+  "120363419325445164@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363428419970388@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363428419970388@g.us"
+  },
+  "120363371283015946@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363426520427644@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363405359488457@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "​👋 Welcome to the group!\n​I am the official group assistant bot. To get started and see what I can do, please type the command below:\n​👉 .menu\n​Enjoy your stay and have fun! ✨",
+    "leaveEnabled": true,
+    "leaveMessage": "​✨ Goodbye, [User]! We're sad to see you go. Wishing you all the best!",
+    "antilink": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363405359488457@g.us"
+  },
+  "120363403477790442@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": true,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 5,
+      "warns": {
+        "268208527409255@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "groupId": "120363403477790442@g.us",
+    "botEnabled": true
+  },
+  "120363426723615373@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363404523086229@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363404523086229@g.us"
+  },
+  "120363419996438167@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363425578119179@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363425578119179@g.us"
+  },
+  "120363423870915919@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363426554831222@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363406113716765@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363406811253827@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    }
+  },
+  "120363411267263598@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363411267263598@g.us"
+  },
+  "120363410083165215@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363410083165215@g.us"
+  },
+  "120363427580892988@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "groupId": "120363427580892988@g.us"
+  },
+  "120363425096040443@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "​👋 Welcome to the group @user\n​I am the official group assistant bot. To get started and see what I can do, please type the command below:\n​👉 `.menu`\n​Enjoy your stay and have fun! ✨\n@p",
+    "leaveEnabled": true,
+    "leaveMessage": "​✨ Goodbye, @user! We're sad to see you go. Wishing you all the best!",
+    "antilink": {
+      "enabled": false,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": false,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363425096040443@g.us"
+  },
+  "120363027859101664@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "4935252996251@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": false,
+    "groupId": "120363027859101664@g.us"
+  },
+  "120363409604260947@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363409604260947@g.us"
+  },
+  "120363407987430214@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363427512218258@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363430584146957@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363409791805592@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363427603283361@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363408203469387@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363408203469387@g.us"
+  },
+  "120363429249414354@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363429249414354@g.us"
+  },
+  "120363426868946932@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363410615251796@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363410615251796@g.us"
+  },
+  "120363410661591189@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363410661591189@g.us"
+  },
+  "120363425159880113@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "27619796254-1510696034@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "27619796254-1510696034@g.us"
+  },
+  "120363409253872312@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "Hello @user welcome to *@gname* dont forget to introduce you self\n\n*Dont forget to join our discord server here:*\nhttps://discord.gg/KUzsCHp9WG\n@p",
+    "leaveEnabled": true,
+    "leaveMessage": "@user left the group",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 2,
+      "warns": {
+        "9922196549632@lid": 1,
+        "183348278386787@lid": 1,
+        "90344939094237@lid": 1,
+        "46716929761294@lid": 1,
+        "30323123454138@lid": 1,
+        "204063190847708@lid": 1,
+        "100214807490765@lid": 1,
+        "268655220752429@lid": 0,
+        "181179571523613@lid": 1,
+        "3101553610992@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363409253872312@g.us"
+  },
+  "120363429928654019@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": true,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 5,
+      "warns": {
+        "51652014944436@lid": 1,
+        "85582256558307@lid": 1,
+        "147502833610867@lid": 0,
+        "5828941758489@lid": 1,
+        "109513579446300@lid": 2,
+        "50521834582035@lid": 1,
+        "115719891116051@lid": 2,
+        "193841286131843@lid": 2,
+        "140265746632788@lid": 2,
+        "134841001582775@lid": 2,
+        "39286602764526@lid": 1,
+        "25882177605720@lid": 1,
+        "62891793350766@lid": 1,
+        "107039879643317@lid": 1,
+        "136022318911626@lid": 1,
+        "203723955540139@lid": 3,
+        "35451347955836@lid": 1,
+        "70403775008793@lid": 1,
+        "184757413527759@lid": 2,
+        "30121360670949@lid": 1,
+        "87089823670429@lid": 2,
+        "166593845833802@lid": 1,
+        "138118380441659@lid": 2,
+        "28617987854421@lid": 1,
+        "268758014775522@lid": 1,
+        "21342128746510@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": true,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363429928654019@g.us"
+  },
+  "120363430000063061@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363430000063061@g.us"
+  },
+  "120363411771212941@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363409112125032@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "Hello @user welcome to *@gname* dont forget to introduce you self\n\n*Dont forget to join our discord server here:*\nhttps://discord.gg/KUzsCHp9WG\n@p",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "170931729219714@lid": 1,
+        "248214867415226@lid": 2,
+        "132758160592943@lid": 0,
+        "66963590131899@lid": 2,
+        "113924745752659@lid": 2,
+        "41717722030113@lid": 2,
+        "181759459201195@lid": 1,
+        "154872880042235@lid": 1,
+        "227122970898595@lid": 1,
+        "221582312104146@lid": 2,
+        "245720162545851@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363409112125032@g.us"
+  },
+  "120363403831294013@g.us": {
+    "welcomeEnabled": true,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": true,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "120363403831294013@g.us": 1,
+        "101860149063873@lid": 1,
+        "12928388432117@lid": 1,
+        "86578605084730@lid": 1,
+        "26303084425469@lid": 1,
+        "100214807490765@lid": 2,
+        "181454415909061@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363403831294013@g.us"
+  },
+  "120363427580420108@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363427580420108@g.us"
+  },
+  "120363429084476808@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363429191333882@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  },
+  "120363408633270506@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363408633270506@g.us"
+  },
+  "120363430261872503@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363430261872503@g.us"
+  },
+  "120363425705091778@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {
+        "12374589370511@lid": 2,
+        "207310051893466@lid": 1,
+        "149487074996234@lid": 1,
+        "232916747604019@lid": 1
+      }
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": false,
+    "groupId": "120363425705091778@g.us"
+  },
+  "120363428955870674@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363428955870674@g.us"
+  },
+  "120363426929538926@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 2,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true,
+    "groupId": "120363426929538926@g.us"
+  },
+  "120363402209324878@g.us": {
+    "welcomeEnabled": false,
+    "welcomeMessage": "👋 Welcome @user to *@gname* you are the *@count member* .use `.menu` to start the fun",
+    "leaveEnabled": false,
+    "leaveMessage": "👋 @user left our group what a shame. @count left",
+    "antilink": {
+      "enabled": true,
+      "action": "warn",
+      "warnLimit": 3,
+      "warns": {}
+    },
+    "antimention": {
+      "enabled": true,
+      "notify": true,
+      "logs": []
+    },
+    "antibot": {
+      "enabled": false,
+      "action": "delete"
+    },
+    "botEnabled": true
+  }
+}
