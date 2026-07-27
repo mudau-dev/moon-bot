@@ -1,16 +1,15 @@
 module.exports = {
-  PREFIX: ".",
-  BOT_NAME: "Rem",
-  BOT_JID: "3243237183737@lid", // Placeholder, will be updated dynamically
+  PREFIX: "",
+  BOT_NAME: "",
+  BOT_JID: "@lid", 
   OWNER_NAME: "Kai",
-  MENU_IMAGE: "https://files.catbox.moe/ewn0lv.jpeg",
+  MENU_IMAGE: """,
   MOONLIGHT_IMAGE: "https://files.catbox.moe/oj9n60.jpg",
   SESSION_FOLDER: "./sessions",
-  GROUP_JIDS: [], // Add this line for news delivery
+  
 
-
-   WEB: 'https://haven.nett.to',
-    // GROUP LINKS  
+   WEB: "https://haven.nett.to",
+     
     FASTIVAL_GROUP: "https://chat.whatsapp.com/I2QG7U5CeofIqZnj35rs2u",
     COMMUNITY_LINK: "https://chat.whatsapp.com/DQOdZHI1cT38PM9IXNJuiF",
     RPG_LINK: "https://chat.whatsapp.com/JwQGQLcV95ZJjtoL52j85R",
