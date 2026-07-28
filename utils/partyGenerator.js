@@ -9,6 +9,27 @@ async function loadImageSafe(url) {
     }
 }
 
+// Utility to draw a rounded rectangle in a compatible way (works even if ctx.roundRect isn't available)
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+    if (typeof radius === 'number') {
+        radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    } else {
+        radius = Object.assign({ tl: 0, tr: 0, br: 0, bl: 0 }, radius);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(x + radius.tl, y);
+    ctx.lineTo(x + width - radius.tr, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    ctx.lineTo(x + width, y + height - radius.br);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    ctx.lineTo(x + radius.bl, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    ctx.lineTo(x, y + radius.tl);
+    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    ctx.closePath();
+}
+
 async function generatePartyImage(data) {
     const width = 1200;
     const height = 675;
@@ -29,8 +50,11 @@ async function generatePartyImage(data) {
     ctx.font = "bold 40px Arial";
     ctx.fillText("YOUR POKÉMON PARTY", width / 2, 120);
 
+    // Reset alignment for the main column
+    ctx.textAlign = "left";
+
     const pokemons = data.pokemons || [];
-    const selectedIdx = data.selectedIdx || -1; // -1 for no specific selection in overview
+    const selectedIdx = data.selectedIdx ?? -1; // -1 for no specific selection in overview
 
     // Draw Party Slots (Centered, single column)
     const startX = (width - 500) / 2; // Center the column
@@ -46,8 +70,7 @@ async function generatePartyImage(data) {
 
         // Slot Background
         ctx.fillStyle = isSelected ? "#e94560" : "#f0f0f0"; // Highlight selected, light grey for others
-        ctx.beginPath();
-        ctx.roundRect(x, y, 500, slotHeight, 10);
+        drawRoundedRect(ctx, x, y, 500, slotHeight, 10);
         ctx.fill();
 
         ctx.strokeStyle = "#1a1a2e"; // Dark border
@@ -56,7 +79,11 @@ async function generatePartyImage(data) {
 
         if (poke) {
             // Poke Sprite (Thumbnail)
-            const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokedexNumber}.png`;
+            const dexNum = poke.pokedexNumber ?? poke.dex ?? poke.id ?? poke.number;
+            const spriteUrl = dexNum
+                ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`
+                : null;
+
             const sprite = await loadImageSafe(spriteUrl);
             if (sprite) {
                 ctx.drawImage(sprite, x + 10, y + 5, 70, 70);
@@ -65,16 +92,19 @@ async function generatePartyImage(data) {
             // Name & Level
             ctx.fillStyle = isSelected ? "#ffffff" : "#1a1a2e";
             ctx.font = "bold 26px Arial";
-            ctx.fillText((poke.nickname || poke.name).toUpperCase(), x + 90, y + 35);
+            ctx.textAlign = "left";
+            ctx.fillText((poke.nickname || poke.name || "Unknown").toString().toUpperCase(), x + 90, y + 35);
             ctx.font = "20px Arial";
-            ctx.fillText(`Lv.${poke.level || 1}`, x + 90, y + 60);
+            ctx.fillText(`Lv.${poke.level ?? 1}`, x + 90, y + 60);
 
             // HP Bar Background
             ctx.fillStyle = isSelected ? "#444444" : "#cccccc";
             ctx.fillRect(x + 250, y + 25, 230, 10);
 
             // HP Bar Fill
-            const hpPercent = Math.max(0, (poke.hp || 100) / (poke.maxHp || 100));
+            const hp = poke.hp ?? poke.maxHp ?? 100;
+            const maxHp = poke.maxHp ?? poke.hp ?? 100;
+            const hpPercent = Math.max(0, Math.min(1, hp / maxHp));
             ctx.fillStyle = hpPercent > 0.5 ? "#4cd964" : hpPercent > 0.2 ? "#f39c12" : "#e74c3c";
             ctx.fillRect(x + 250, y + 25, 230 * hpPercent, 10);
 
@@ -82,7 +112,7 @@ async function generatePartyImage(data) {
             ctx.fillStyle = isSelected ? "#ffffff" : "#1a1a2e";
             ctx.font = "18px Arial";
             ctx.textAlign = "right";
-            ctx.fillText(`${Math.ceil(poke.hp || 100)} / ${poke.maxHp || 100}`, x + 480, y + 50);
+            ctx.fillText(`${Math.ceil(hp)} / ${maxHp}`, x + 480, y + 50);
             ctx.textAlign = "left";
 
             // Status

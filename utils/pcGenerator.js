@@ -9,6 +9,27 @@ async function loadImageSafe(url) {
     }
 }
 
+// Utility to draw a rounded rectangle in a compatible way (works even if ctx.roundRect isn't available)
+function drawRoundedRect(ctx, x, y, width, height, radius) {
+    if (typeof radius === 'number') {
+        radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    } else {
+        radius = Object.assign({ tl: 0, tr: 0, br: 0, bl: 0 }, radius);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(x + radius.tl, y);
+    ctx.lineTo(x + width - radius.tr, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    ctx.lineTo(x + width, y + height - radius.br);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    ctx.lineTo(x + radius.bl, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    ctx.lineTo(x, y + radius.tl);
+    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    ctx.closePath();
+}
+
 async function generatePCImage(data) {
     const width = 1200;
     const height = 675;
@@ -28,6 +49,9 @@ async function generatePCImage(data) {
     // Section Title
     ctx.font = "bold 40px Arial";
     ctx.fillText("YOUR POKÉMON PC", width / 2, 120);
+
+    // Reset text alignment to left for slot content
+    ctx.textAlign = "left";
 
     const pokemons = data.pokemons || [];
 
@@ -50,8 +74,7 @@ async function generatePCImage(data) {
 
         // Slot Background
         ctx.fillStyle = "#f0f0f0"; // Light grey
-        ctx.beginPath();
-        ctx.roundRect(x, y, slotWidth, slotHeight, 10);
+        drawRoundedRect(ctx, x, y, slotWidth, slotHeight, 10);
         ctx.fill();
 
         ctx.strokeStyle = "#1a1a2e"; // Dark border
@@ -59,8 +82,12 @@ async function generatePCImage(data) {
         ctx.stroke();
 
         if (poke) {
-            // Poke Sprite (Thumbnail)
-            const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.pokedexNumber}.png`;
+            // Poke Sprite (Thumbnail) - try several common fields for the dex number
+            const dexNum = poke.pokedexNumber ?? poke.dex ?? poke.id ?? poke.number;
+            const spriteUrl = dexNum
+                ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`
+                : null;
+
             const sprite = await loadImageSafe(spriteUrl);
             if (sprite) {
                 ctx.drawImage(sprite, x + 5, y + 15, 70, 70);
@@ -69,16 +96,19 @@ async function generatePCImage(data) {
             // Name & Level
             ctx.fillStyle = "#1a1a2e";
             ctx.font = "bold 20px Arial";
-            ctx.fillText((poke.nickname || poke.name).toUpperCase(), x + 85, y + 40);
+            ctx.textAlign = "left";
+            ctx.fillText((poke.nickname || poke.name || "Unknown").toString().toUpperCase(), x + 85, y + 40);
             ctx.font = "16px Arial";
-            ctx.fillText(`Lv.${poke.level || 1}`, x + 85, y + 65);
+            ctx.fillText(`Lv.${poke.level ?? 1}`, x + 85, y + 65);
 
             // HP Bar Background
             ctx.fillStyle = "#cccccc";
             ctx.fillRect(x + 85, y + 75, 150, 8);
 
-            // HP Bar Fill
-            const hpPercent = Math.max(0, (poke.hp || 100) / (poke.maxHp || 100));
+            // HP calculation (support 0 hp properly)
+            const hp = poke.hp ?? poke.maxHp ?? 100;
+            const maxHp = poke.maxHp ?? poke.hp ?? 100;
+            const hpPercent = Math.max(0, Math.min(1, hp / maxHp));
             ctx.fillStyle = hpPercent > 0.5 ? "#4cd964" : hpPercent > 0.2 ? "#f39c12" : "#e74c3c";
             ctx.fillRect(x + 85, y + 75, 150 * hpPercent, 8);
 
@@ -86,7 +116,7 @@ async function generatePCImage(data) {
             ctx.fillStyle = "#1a1a2e";
             ctx.font = "14px Arial";
             ctx.textAlign = "right";
-            ctx.fillText(`${Math.ceil(poke.hp || 100)} / ${poke.maxHp || 100}`, x + 235, y + 90);
+            ctx.fillText(`${Math.ceil(hp)} / ${maxHp}`, x + 235, y + 90);
             ctx.textAlign = "left";
         }
     }
