@@ -12,9 +12,16 @@ function calcLevelXP(messageCount) {
   return { level, xp, xpTarget };
 }
 
-async function getUserGuild(userId) {
+async function getUserGuild(user) {
   try {
-    return await Guild.findOne({ members: userId });
+    if (!user) return null;
+    return await Guild.findOne({ 
+      $or: [
+        { members: user.moonId },
+        { members: user.userId },
+        { members: user.whatsappNumber?.split('@')[0] }
+      ]
+    });
   } catch {
     return null;
   }
@@ -32,12 +39,14 @@ moon({
       const target = contextInfo?.mentionedJid?.[0] || contextInfo?.participant || sender;
       const id = target?.split('@')[0];
       
+      const config = require("../../config");
       const userDoc = await findOrCreateWhatsApp(target);
-      if (!userDoc) return reply("❌ User not found.");
-      const user = userDoc.toObject ? userDoc.toObject() : userDoc;
-
-      const wallet = Number(user.balance ?? 0);
-      const bank   = Number(user.bank   ?? 0);
+      const user = userDoc ? (userDoc.toObject ? userDoc.toObject() : userDoc) : null;
+      
+      const isRegistered = user && user.moonId && !user.moonId.startsWith("moon_");
+      
+      const wallet = isRegistered ? Number(user.balance ?? 0) : 0;
+      const bank   = isRegistered ? Number(user.bank   ?? 0) : 0;
       
       const roleMap = {
         "True Owner": "Owner",
@@ -47,12 +56,12 @@ moon({
         "Tester":     "Tester",
         "User":       "Citizen"
       };
-      const displayRole = roleMap[user.role] || "Moon Citizen";
+      const displayRole = isRegistered ? (roleMap[user.role] || "Moon Citizen") : "Unregistered";
       
-      const guild = await getUserGuild(id);
+      const guild = isRegistered ? await getUserGuild(user) : null;
       const guildName = guild ? guild.name : "N/A";
-      const rank = await User.countDocuments({ balance: { $gt: user.balance } }) + 1;
-      const { level, xp, xpTarget } = calcLevelXP(user.messageCount);
+      const rank = isRegistered ? (await User.countDocuments({ balance: { $gt: user.balance } }) + 1) : 0;
+      const { level, xp, xpTarget } = calcLevelXP(user?.messageCount || 0);
       
       let profileImage = null;
       try {
@@ -60,34 +69,41 @@ moon({
       } catch {}
 
       const profileData = {
-        username: user.username || id,
-        bank,
-        wallet,
-        bio: user.bio && user.bio !== "." ? user.bio : "N/A",
-        rank,
-        level,
-        xp,
-        xpTarget,
+        username: isRegistered ? (user.username || id) : "A/N",
+        bank: isRegistered ? bank : 0,
+        wallet: isRegistered ? wallet : 0,
+        bio: isRegistered ? (user.bio && user.bio !== "." ? user.bio : "A/N") : "A/N",
+        rank: isRegistered ? rank : 0,
+        level: isRegistered ? level : 0,
+        xp: isRegistered ? xp : 0,
+        xpTarget: isRegistered ? xpTarget : 100,
         role: displayRole,
-        profileImage,
-        backgroundImage: user.backgroundImage || null
+        profileImage: profileImage || (isRegistered ? user.avatarUrl : null),
+        bannerUrl: isRegistered ? (user.bannerUrl || user.backgroundImage) : null,
+        profileFrame: isRegistered ? user.profileFrame : 'classic'
       };
 
       const buffer = await generateProfileImage(profileData);
       
-      const caption = `╭━━━[ 👤 *ℙℝ𝕆𝔽𝕀𝕃𝔼* ]━━━
-┃ *Name:* ${user.username || id}
+      let caption = `╭━━━[ 👤 *ℙℝ𝕆𝔽𝕀𝕃𝔼* ]━━━
+┃ *Name:* ${profileData.username}
 ┃ *Role:* *${displayRole}*
-┃ *Level:* ${level} (${xp}/${xpTarget} XP)
-┃ *Wallet:* ${wallet.toLocaleString()}
-┃ *Bank:* ${bank.toLocaleString()}
+┃ *Level:* ${profileData.level}
+┃ *Wallet:* ${profileData.wallet.toLocaleString()}
+┃ *Bank:* ${profileData.bank.toLocaleString()}
 ┃ *Guild:* ${guildName}
 ┣━━━[ *BIO* ]━━━━━
 ┃ ${profileData.bio}
 ┣━━━[ *INFO* ]━━━━
 ┃ *Id:* ${id}
-┃ *Joined:* ${user.createdAt ? moment(user.createdAt).format('DD/MM/YYYY') : "Unknown"}
-╰━━━━━━━━━━━━━━━┈`;
+┃ *Joined:* ${user?.createdAt ? moment(user.createdAt).format('DD/MM/YYYY') : "Unknown"}
+╰━━━━━━━━━━━━━━━┈\n`;
+
+      if (!isRegistered) {
+        caption += `\n🚫 user not registered in Moonlight haven`;
+      } else {
+        caption += `\n*Profile:* ${config.WEB}/user/${user.moonId}`;
+      }
 
       await sock.sendMessage(jid, { image: buffer, caption, mentions: [target] }, { quoted: m });
     } catch (err) {

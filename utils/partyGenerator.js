@@ -9,129 +9,126 @@ async function loadImageSafe(url) {
     }
 }
 
-// Utility to draw a rounded rectangle in a compatible way (works even if ctx.roundRect isn't available)
 function drawRoundedRect(ctx, x, y, width, height, radius) {
-    if (typeof radius === 'number') {
-        radius = { tl: radius, tr: radius, br: radius, bl: radius };
-    } else {
-        radius = Object.assign({ tl: 0, tr: 0, br: 0, bl: 0 }, radius);
-    }
-
     ctx.beginPath();
-    ctx.moveTo(x + radius.tl, y);
-    ctx.lineTo(x + width - radius.tr, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
-    ctx.lineTo(x + width, y + height - radius.br);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
-    ctx.lineTo(x + radius.bl, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
-    ctx.lineTo(x, y + radius.tl);
-    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
 }
 
 async function generatePartyImage(data) {
-    const width = 1200;
-    const height = 675;
+    const width = 800;
+    const height = 600;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d");
 
-    // Background: White
-    ctx.fillStyle = "#ffffff";
+    // Background
+    ctx.fillStyle = "#0f172a"; // Dark blue-black
+    ctx.fillRect(0, 0, width, height);
+    
+    // Add some texture/gradient
+    const grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, "rgba(167, 139, 250, 0.1)"); // moonviolet
+    grad.addColorStop(1, "rgba(6, 182, 212, 0.1)"); // cyan
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Royal Header (Top Center)
-    ctx.fillStyle = "#1a1a2e"; // Dark blue for text
-    ctx.font = "bold 50px 'Times New Roman'"; // Royal font
+    // Header
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 40px Sans";
     ctx.textAlign = "center";
-    ctx.fillText("┃ ꕥ 𝚳OO𝚴𝐋𝚰𝐆𝚮𝚻 彡 ★", width / 2, 60);
-
-    // Section Title
-    ctx.font = "bold 40px Arial";
-    ctx.fillText("YOUR POKÉMON PARTY", width / 2, 120);
-
-    // Reset alignment for the main column
-    ctx.textAlign = "left";
+    ctx.fillText("POKÉMON PARTY", width / 2, 60);
+    
+    ctx.strokeStyle = "rgba(167, 139, 250, 0.5)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(100, 80);
+    ctx.lineTo(700, 80);
+    ctx.stroke();
 
     const pokemons = data.pokemons || [];
-    const selectedIdx = data.selectedIdx ?? -1; // -1 for no specific selection in overview
-
-    // Draw Party Slots (Centered, single column)
-    const startX = (width - 500) / 2; // Center the column
-    const startY = 160;
-    const slotHeight = 80;
-    const slotSpacing = 15;
+    
+    // Grid layout for 6 pokemons
+    const startX = 50;
+    const startY = 120;
+    const itemWidth = 340;
+    const itemHeight = 130;
+    const spacing = 20;
 
     for (let i = 0; i < 6; i++) {
-        const x = startX;
-        const y = startY + (i * (slotHeight + slotSpacing));
-        const isSelected = i === selectedIdx;
+        const row = Math.floor(i / 2);
+        const col = i % 2;
+        const x = startX + col * (itemWidth + spacing);
+        const y = startY + row * (itemHeight + spacing);
+        
         const poke = pokemons[i];
-
-        // Slot Background
-        ctx.fillStyle = isSelected ? "#e94560" : "#f0f0f0"; // Highlight selected, light grey for others
-        drawRoundedRect(ctx, x, y, 500, slotHeight, 10);
+        
+        // Card background
+        ctx.fillStyle = "rgba(30, 41, 59, 0.8)";
+        drawRoundedRect(ctx, x, y, itemWidth, itemHeight, 15);
         ctx.fill();
-
-        ctx.strokeStyle = "#1a1a2e"; // Dark border
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
         ctx.stroke();
 
         if (poke) {
-            // Poke Sprite (Thumbnail)
-            const dexNum = poke.pokedexNumber ?? poke.dex ?? poke.id ?? poke.number;
-            const spriteUrl = dexNum
-                ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`
-                : null;
-
+            // Poke Sprite
+            const dexNum = poke.pokedexNumber;
+            const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`;
             const sprite = await loadImageSafe(spriteUrl);
             if (sprite) {
-                ctx.drawImage(sprite, x + 10, y + 5, 70, 70);
+                ctx.drawImage(sprite, x + 10, y + 10, 110, 110);
             }
 
-            // Name & Level
-            ctx.fillStyle = isSelected ? "#ffffff" : "#1a1a2e";
-            ctx.font = "bold 26px Arial";
+            // Info
             ctx.textAlign = "left";
-            ctx.fillText((poke.nickname || poke.name || "Unknown").toString().toUpperCase(), x + 90, y + 35);
-            ctx.font = "20px Arial";
-            ctx.fillText(`Lv.${poke.level ?? 1}`, x + 90, y + 60);
-
-            // HP Bar Background
-            ctx.fillStyle = isSelected ? "#444444" : "#cccccc";
-            ctx.fillRect(x + 250, y + 25, 230, 10);
-
-            // HP Bar Fill
-            const hp = poke.hp ?? poke.maxHp ?? 100;
-            const maxHp = poke.maxHp ?? poke.hp ?? 100;
-            const hpPercent = Math.max(0, Math.min(1, hp / maxHp));
-            ctx.fillStyle = hpPercent > 0.5 ? "#4cd964" : hpPercent > 0.2 ? "#f39c12" : "#e74c3c";
-            ctx.fillRect(x + 250, y + 25, 230 * hpPercent, 10);
-
-            // HP Text
-            ctx.fillStyle = isSelected ? "#ffffff" : "#1a1a2e";
-            ctx.font = "18px Arial";
-            ctx.textAlign = "right";
-            ctx.fillText(`${Math.ceil(hp)} / ${maxHp}`, x + 480, y + 50);
-            ctx.textAlign = "left";
-
-            // Status
-            if (poke.status && poke.status !== "Healthy") {
-                ctx.fillStyle = "#e74c3c";
-                ctx.font = "bold 16px Arial";
-                ctx.fillText(poke.status, x + 250, y + 55);
-            }
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 20px Sans";
+            ctx.fillText((poke.nickname || poke.name).toUpperCase(), x + 130, y + 40);
+            
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "16px Sans";
+            ctx.fillText(`Lv. ${poke.level}`, x + 130, y + 65);
+            
+            // HP Bar
+            const barWidth = 180;
+            const barHeight = 10;
+            const barX = x + 130;
+            const barY = y + 85;
+            
+            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            drawRoundedRect(ctx, barX, barY, barWidth, barHeight, 5);
+            ctx.fill();
+            
+            const hpRatio = Math.min(poke.hp / (poke.maxHp || poke.hp), 1);
+            ctx.fillStyle = hpRatio > 0.5 ? "#10b981" : hpRatio > 0.2 ? "#fbbf24" : "#f43f5e";
+            drawRoundedRect(ctx, barX, barY, barWidth * hpRatio, barHeight, 5);
+            ctx.fill();
+            
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "12px Sans";
+            ctx.fillText(`${Math.ceil(poke.hp)} / ${poke.maxHp || Math.ceil(poke.hp)}`, barX + barWidth - 50, barY - 5);
+            
         } else {
             // Empty Slot
-            ctx.fillStyle = "#888888";
-            ctx.font = "italic 24px Arial";
-            ctx.fillText("Empty Slot", x + 90, y + 45);
+            ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.font = "italic 20px Sans";
+            ctx.textAlign = "center";
+            ctx.fillText("EMPTY SLOT", x + itemWidth / 2, y + itemHeight / 2 + 10);
         }
     }
 
-    // Bottom Border
-    ctx.fillStyle = "#1a1a2e";
-    ctx.fillRect(0, height - 20, width, 20);
+    // Footer
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.font = "14px Sans";
+    ctx.textAlign = "center";
+    ctx.fillText("𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 ℍ𝔸𝕍𝔼ℕ • POKÉMON", width / 2, 580);
 
     return canvas.toBuffer();
 }

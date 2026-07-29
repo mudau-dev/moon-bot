@@ -7,9 +7,15 @@ function userNumber(jid) {
   return (jid || "").split("@")[0];
 }
 
-async function getUserGuild(userId) {
-  const id = userNumber(userId);
-  return await Guild.findOne({ members: id });
+async function getUserGuild(user) {
+  if (!user) return null;
+  return await Guild.findOne({ 
+    $or: [
+      { members: user.moonId },
+      { members: user.userId },
+      { members: user.whatsappNumber?.split('@')[0] }
+    ]
+  });
 }
 
 async function getGuilds() {
@@ -63,12 +69,14 @@ moon({
   subcommands: ["create", "list", "join", "members", "setimage", "desc", "remove", "leave", "delete"],
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const senderId = userNumber(sender);
+      const userDoc = await require("../../database/users").findOrCreateWhatsApp(sender);
+      const user = userDoc.toObject();
+      const senderId = user.moonId || user.userId || userNumber(sender);
       const sub = args[0]?.toLowerCase();
 
       // ── 1. GUILD PROFILE ──────────────────────────────────────────────────
       if (!sub) {
-        const guild = await getUserGuild(senderId);
+        const guild = await getUserGuild(user);
         if (!guild) return reply("❌ You are not in a guild. Use `.guild list` to see available guilds.");
 
         // Resolve owner name using full JID
@@ -111,11 +119,11 @@ moon({
         if (!name) return reply("❌ Usage: .guild create <name>");
         const existing = await Guild.findOne({ name });
         if (existing) return reply("❌ A guild with this name already exists.");
-        const userInGuild = await getUserGuild(senderId);
+        const userInGuild = await getUserGuild(user);
         if (userInGuild) return reply("❌ You are already in a guild.");
         const newGuild = new Guild({
           name,
-          ownerId: senderId,
+          ownerId: senderId, // Keep digits for now to avoid breaking existing bot logic, but web will see moonId if we link it
           members: [senderId],
           description: "A new legendary guild."
         });
@@ -143,9 +151,9 @@ moon({
         const guilds = await getGuilds();
         const guild = guilds[index - 1];
         if (!guild) return reply("❌ Guild not found.");
-        const existing = await getUserGuild(senderId);
+        const existing = await getUserGuild(user);
         if (existing) return reply("❌ You are already in a guild.");
-        if (guild.banned.includes(senderId)) return reply("❌ You are banned from this guild.");
+        if (guild.banned.includes(senderId) || (user.moonId && guild.banned.includes(user.moonId))) return reply("❌ You are banned from this guild.");
         guild.members.push(senderId);
         await guild.save();
         return reply(`✅ You have joined *${guild.name}*!`);
@@ -153,7 +161,7 @@ moon({
 
       // ── 5. MEMBERS ─────────────────────────────────────────────────────────
       if (sub === "members") {
-        const guild = await getUserGuild(senderId);
+        const guild = await getUserGuild(user);
         if (!guild) return reply("❌ You are not in a guild.");
         let text = `👥 *${guild.name.toUpperCase()} — MEMBERS*\n\n`;
         const mentions = [];
@@ -206,7 +214,7 @@ moon({
 
       // ── 9. LEAVE ───────────────────────────────────────────────────────────
       if (sub === "leave") {
-        const guild = await getUserGuild(senderId);
+        const guild = await getUserGuild(user);
         if (!guild) return reply("❌ You are not in a guild.");
         if (guild.ownerId === senderId) return reply("❌ Owners cannot leave. Use .guild delete instead.");
         guild.members = guild.members.filter(id => id !== senderId);

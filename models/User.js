@@ -61,6 +61,7 @@ const UserSchema = new mongoose.Schema(
     totalLost: { type: Number, default: 0 },
     stardust: { type: Number, default: 0 },
     diamonds: { type: Number, default: 0 },
+    manas: { type: Number, default: 0 },
     // ── Role System ──────────────────────────────────────────
     role: {
       type: String,
@@ -75,6 +76,9 @@ const UserSchema = new mongoose.Schema(
     profileImage: { type: String, default: null },
     backgroundImage: { type: String, default: null },
     videoBackground: { type: String, default: null },
+    avatarUrl: { type: String, default: null },
+    bannerUrl: { type: String, default: null },
+    profileFrame: { type: String, default: 'classic' },
     // ── Inventory ────────────────────────────────────────────
     inventory: [InventorySchema],
     // ── Website login ─────────────────────────────────────────

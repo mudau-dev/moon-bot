@@ -7,7 +7,11 @@ moon({
     category: "Pokémon",
     description: "Begin your Pokémon journey and pick a starter",
     async execute(sock, jid, sender, args, m, { reply, replyWithImage }) {
-        const existing = await Pokemon.findOne({ userId: sender });
+        const { findOrCreateWhatsApp } = require("../../database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        const userId = user.moonId || sender;
+        
+        const existing = await Pokemon.findOne({ $or: [{ userId: sender }, { userId: userId }] });
         if (existing) return reply("❌ You have already started your journey!");
 
         const starters = [
@@ -42,7 +46,7 @@ moon({
 
         await Pokemon.create({
             pokemonId: "STARTER-" + Date.now(),
-            userId: sender,
+            userId: userId,
             pokedexNumber: data.pokedexNumber,
             name: data.name,
             level: level,

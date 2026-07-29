@@ -136,6 +136,24 @@ async function startBot() {
     const body     = getMessageText(msg);
       await handleChatBot(sock, msg, body, config);
     const isCmd    = body.startsWith(config.PREFIX);
+
+    // ── DM Protection ────────────────────────────────────────────────
+    if (!isGroup && !msg.key.fromMe) {
+      const { isOwner } = require("./database/users");
+      const owner = await isOwner(sender);
+      if (!owner) {
+        console.log(`[DM PROTECTION] Suspending user ${sender} for DMing the bot.`);
+        const { findOrCreateWhatsApp } = require("./database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        if (user && !user.suspended) {
+          user.suspended = true;
+          user.suspendReason = "Messaging the bot in DMs";
+          await user.save();
+        }
+        return; // Silent block
+      }
+    }
+
     // ── Group activity tracking (non-blocking) ────────────────────────
     if (isGroup) {
       Group.findOneAndUpdate(

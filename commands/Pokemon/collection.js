@@ -9,16 +9,21 @@ moon({
     category: "Pokémon",
     description: "View your Pokémon collection",
     async execute(sock, jid, sender, args, m, { reply }) {
+        const { findOrCreateWhatsApp } = require("../../database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        const userId = user.moonId || sender;
+        
         const page = parseInt(args[0]) || 1;
         const limit = 30;
         const skip = (page - 1) * limit;
 
-        const total = await Pokemon.countDocuments({ userId: sender });
-        const pokemons = await Pokemon.find({ userId: sender }).skip(skip).limit(limit).sort({ caughtAt: -1 });
+        const query = { $or: [{ userId: sender }, { userId: userId }] };
+        const total = await Pokemon.countDocuments(query);
+        const pokemons = await Pokemon.find(query).skip(skip).limit(limit).sort({ caughtAt: -1 });
 
         if (pokemons.length === 0) return reply("❌ Your PC is empty!");
 
-        const buffer = await generatePCImage(pokemons, page, total);
+        const buffer = await generatePCImage({ pokemons, page, total });
         return sock.sendMessage(jid, { image: buffer, caption: `📱 *YOUR POKÉMON COLLECTION* (Page ${page})\nTotal: ${total} Pokémon` }, { quoted: m });
     }
 });
@@ -28,10 +33,15 @@ moon({
     category: "Pokémon",
     description: "View your active Pokémon party",
     async execute(sock, jid, sender, args, m, { reply }) {
-        const party = await Pokemon.find({ userId: sender, location: "party" }).limit(6).sort({ caughtAt: 1 });
+        const { findOrCreateWhatsApp } = require("../../database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        const userId = user.moonId || sender;
+
+        const query = { $or: [{ userId: sender }, { userId: userId }], location: "party" };
+        const party = await Pokemon.find(query).limit(6).sort({ caughtAt: 1 });
         if (party.length === 0) return reply("❌ Your party is empty!");
 
-        const buffer = await generatePartyImage(party);
+        const buffer = await generatePartyImage({ pokemons: party });
         return sock.sendMessage(jid, { image: buffer, caption: `🎒 *YOUR POKÉMON PARTY*` }, { quoted: m });
     }
 });
@@ -42,17 +52,22 @@ moon({
     category: "Pokémon",
     description: "View your trainer profile and Pokémon stats",
     async execute(sock, jid, sender, args, m, { reply }) {
-        const total = await Pokemon.countDocuments({ userId: sender });
-        const shinies = await Pokemon.countDocuments({ userId: sender, isShiny: true });
-        const party = await Pokemon.find({ userId: sender, location: "party" }).limit(6);
+        const { findOrCreateWhatsApp } = require("../../database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        const userId = user.moonId || sender;
+
+        const query = { $or: [{ userId: sender }, { userId: userId }] };
+        const total = await Pokemon.countDocuments(query);
+        const shinies = await Pokemon.countDocuments({ ...query, isShiny: true });
+        const party = await Pokemon.find({ ...query, location: "party" }).limit(6);
 
         const buffer = await generateProfileImage({
-            name: m.pushName || "Trainer",
+            name: m.pushName || user.username || "Trainer",
             total,
             shinies,
             party
         });
-        return sock.sendMessage(jid, { image: buffer, caption: `👤 *TRAINER PROFILE: ${m.pushName.toUpperCase()}*` }, { quoted: m });
+        return sock.sendMessage(jid, { image: buffer, caption: `👤 *TRAINER PROFILE: ${(m.pushName || user.username || "Trainer").toUpperCase()}*` }, { quoted: m });
     }
 });
 
@@ -61,10 +76,14 @@ moon({
     category: "Pokémon",
     description: "View details of a specific Pokémon",
     async execute(sock, jid, sender, args, m, { reply }) {
+        const { findOrCreateWhatsApp } = require("../../database/users");
+        const user = await findOrCreateWhatsApp(sender);
+        const userId = user.moonId || sender;
+
         const id = args[0];
         if (!id) return reply("❌ Usage: .poke <pokemon_id>");
 
-        const p = await Pokemon.findOne({ userId: sender, pokemonId: id });
+        const p = await Pokemon.findOne({ $or: [{ userId: sender }, { userId: userId }], pokemonId: id });
         if (!p) return reply("❌ Pokémon not found in your collection.");
 
         const data = await fetchPokemonData(p.name);

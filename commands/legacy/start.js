@@ -19,7 +19,11 @@ moon({
   description: 'Create your permanent Moonlight Legacy account',
   async execute(sock, jid, sender, args, m, { reply, pushName }) {
     try {
-      const existing = await LegacyPlayer.findOne({ whatsappId: sender });
+      const { findOrCreateWhatsApp } = require("../../database/users");
+      const user = await findOrCreateWhatsApp(sender);
+      const userId = user.moonId || sender;
+      
+      const existing = await LegacyPlayer.findOne({ $or: [{ whatsappId: sender }, { whatsappId: userId }] });
       if (existing) {
         return reply(
           `⚠️ *You already have a Legacy account!*\n\n` +
@@ -33,8 +37,8 @@ moon({
       }
 
       const player = await LegacyPlayer.create({
-        whatsappId: sender,
-        name: pushName || 'Unknown',
+        whatsappId: userId,
+        name: pushName || user.username || 'Unknown',
         gender: null,
         age: null,
         class: null,

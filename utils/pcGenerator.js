@@ -9,121 +9,107 @@ async function loadImageSafe(url) {
     }
 }
 
-// Utility to draw a rounded rectangle in a compatible way (works even if ctx.roundRect isn't available)
 function drawRoundedRect(ctx, x, y, width, height, radius) {
-    if (typeof radius === 'number') {
-        radius = { tl: radius, tr: radius, br: radius, bl: radius };
-    } else {
-        radius = Object.assign({ tl: 0, tr: 0, br: 0, bl: 0 }, radius);
-    }
-
     ctx.beginPath();
-    ctx.moveTo(x + radius.tl, y);
-    ctx.lineTo(x + width - radius.tr, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
-    ctx.lineTo(x + width, y + height - radius.br);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
-    ctx.lineTo(x + radius.bl, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
-    ctx.lineTo(x, y + radius.tl);
-    ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
     ctx.closePath();
 }
 
 async function generatePCImage(data) {
-    const width = 1200;
-    const height = 675;
+    const width = 1000;
+    const height = 800;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d");
 
-    // Background: White
-    ctx.fillStyle = "#ffffff";
+    // Background
+    ctx.fillStyle = "#0f172a"; // Dark blue-black
+    ctx.fillRect(0, 0, width, height);
+    
+    // Add some texture/gradient
+    const grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, "rgba(167, 139, 250, 0.1)"); // moonviolet
+    grad.addColorStop(1, "rgba(6, 182, 212, 0.1)"); // cyan
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Royal Header (Top Center)
-    ctx.fillStyle = "#1a1a2e"; // Dark blue for text
-    ctx.font = "bold 50px 'Times New Roman'"; // Royal font
+    // Header
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 40px Sans";
     ctx.textAlign = "center";
-    ctx.fillText("┃ ꕥ 𝚳OO𝚴𝐋𝚰𝐆𝚮𝚻 彡 ★", width / 2, 60);
-
-    // Section Title
-    ctx.font = "bold 40px Arial";
-    ctx.fillText("YOUR POKÉMON PC", width / 2, 120);
-
-    // Reset text alignment to left for slot content
-    ctx.textAlign = "left";
+    ctx.fillText("POKÉMON PC STORAGE", width / 2, 60);
+    
+    ctx.strokeStyle = "rgba(167, 139, 250, 0.5)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(100, 80);
+    ctx.lineTo(900, 80);
+    ctx.stroke();
 
     const pokemons = data.pokemons || [];
+    
+    // Grid layout
+    const startX = 40;
+    const startY = 110;
+    const itemWidth = 180;
+    const itemHeight = 160;
+    const spacing = 10;
+    const cols = 5;
 
-    // PC Slots (Grid layout, 4 columns)
-    const startX = 50;
-    const startY = 160;
-    const slotWidth = 250;
-    const slotHeight = 100;
-    const colSpacing = 20;
-    const rowSpacing = 20;
-    const cols = 4;
-
-    for (let i = 0; i < pokemons.length; i++) {
-        const poke = pokemons[i];
-        const col = i % cols;
+    for (let i = 0; i < 25; i++) { // Show up to 25 per page
         const row = Math.floor(i / cols);
-
-        const x = startX + (col * (slotWidth + colSpacing));
-        const y = startY + (row * (slotHeight + rowSpacing));
-
-        // Slot Background
-        ctx.fillStyle = "#f0f0f0"; // Light grey
-        drawRoundedRect(ctx, x, y, slotWidth, slotHeight, 10);
+        const col = i % cols;
+        const x = startX + col * (itemWidth + spacing);
+        const y = startY + row * (itemHeight + spacing);
+        
+        const poke = pokemons[i];
+        
+        // Card background
+        ctx.fillStyle = "rgba(30, 41, 59, 0.8)";
+        drawRoundedRect(ctx, x, y, itemWidth, itemHeight, 10);
         ctx.fill();
-
-        ctx.strokeStyle = "#1a1a2e"; // Dark border
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
         ctx.stroke();
 
         if (poke) {
-            // Poke Sprite (Thumbnail) - try several common fields for the dex number
-            const dexNum = poke.pokedexNumber ?? poke.dex ?? poke.id ?? poke.number;
-            const spriteUrl = dexNum
-                ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`
-                : null;
-
+            // Poke Sprite
+            const dexNum = poke.pokedexNumber;
+            const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${dexNum}.png`;
             const sprite = await loadImageSafe(spriteUrl);
             if (sprite) {
-                ctx.drawImage(sprite, x + 5, y + 15, 70, 70);
+                ctx.drawImage(sprite, x + 30, y + 10, 120, 120);
             }
 
-            // Name & Level
-            ctx.fillStyle = "#1a1a2e";
-            ctx.font = "bold 20px Arial";
-            ctx.textAlign = "left";
-            ctx.fillText((poke.nickname || poke.name || "Unknown").toString().toUpperCase(), x + 85, y + 40);
-            ctx.font = "16px Arial";
-            ctx.fillText(`Lv.${poke.level ?? 1}`, x + 85, y + 65);
-
-            // HP Bar Background
-            ctx.fillStyle = "#cccccc";
-            ctx.fillRect(x + 85, y + 75, 150, 8);
-
-            // HP calculation (support 0 hp properly)
-            const hp = poke.hp ?? poke.maxHp ?? 100;
-            const maxHp = poke.maxHp ?? poke.hp ?? 100;
-            const hpPercent = Math.max(0, Math.min(1, hp / maxHp));
-            ctx.fillStyle = hpPercent > 0.5 ? "#4cd964" : hpPercent > 0.2 ? "#f39c12" : "#e74c3c";
-            ctx.fillRect(x + 85, y + 75, 150 * hpPercent, 8);
-
-            // HP Text
-            ctx.fillStyle = "#1a1a2e";
-            ctx.font = "14px Arial";
-            ctx.textAlign = "right";
-            ctx.fillText(`${Math.ceil(hp)} / ${maxHp}`, x + 235, y + 90);
-            ctx.textAlign = "left";
+            // Info
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 14px Sans";
+            ctx.fillText((poke.nickname || poke.name).toUpperCase(), x + itemWidth / 2, y + 130);
+            
+            ctx.fillStyle = "#94a3b8";
+            ctx.font = "12px Sans";
+            ctx.fillText(`Lv. ${poke.level}`, x + itemWidth / 2, y + 150);
+        } else {
+            // Empty Slot
+            ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+            ctx.font = "12px Sans";
+            ctx.textAlign = "center";
+            ctx.fillText("EMPTY", x + itemWidth / 2, y + itemHeight / 2 + 5);
         }
     }
 
-    // Bottom Border
-    ctx.fillStyle = "#1a1a2e";
-    ctx.fillRect(0, height - 20, width, 20);
+    // Footer
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.font = "14px Sans";
+    ctx.textAlign = "center";
+    ctx.fillText(`Page ${data.page || 1} • Total: ${data.total || 0} • 𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 ℍ𝔸𝕍𝔼ℕ`, width / 2, 780);
 
     return canvas.toBuffer();
 }

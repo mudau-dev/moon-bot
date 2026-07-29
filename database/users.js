@@ -25,13 +25,33 @@ async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypass
   }
 
   // ---------------- FIND USER ----------------
-  // We first try to find by whatsappNumber
+  // 1. Try whatsappNumber
   let user = await User.findOne({ whatsappNumber });
+
+  // 2. If not found, try phoneNumber (from web registration)
+  if (!user) {
+    const digits = whatsappNumber.split("@")[0];
+    user = await User.findOne({ 
+      $or: [
+        { phoneNumber: digits },
+        { whatsappNumber: digits }
+      ]
+    });
+    
+    if (user) {
+      // Link the whatsappNumber to this existing web user
+      user.whatsappNumber = whatsappNumber;
+      await user.save();
+    }
+  }
 
   // ---------------- CREATE USER ----------------
   if (!user) {
     const userId = whatsappNumber.split("@")[0];
+    // Generate a moonId for new bot users to keep consistency with web
+    const moonId = "moon_" + Math.random().toString(36).slice(2, 10);
     user = await User.create({
+      moonId,
       whatsappNumber,
       userId,
       username,
