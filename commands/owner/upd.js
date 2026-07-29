@@ -10,7 +10,8 @@ moon({
 
     await reply("🚀 Fetching updates from the repository...");
 
-    exec('git pull', (err, stdout, stderr) => {
+    const path = require('path');
+    exec('git pull', { cwd: path.join(__dirname, '../../') }, (err, stdout, stderr) => {
       if (err) {
         return reply(`❌ Error during update:\n\`\`\`${err.message}\`\`\``);
       }

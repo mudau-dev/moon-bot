@@ -133,20 +133,33 @@ async function executeWrapped(cmd, sock, jid, sender, args, m, context) {
       if (!r.allowed) return context.reply(r.message || "❌ No permission");
     }
 
-    // ── 2. Category lock check ────────────────────────────────────────────
+    // ── 2. Category lock check & Registration lock ───────────────────────
     if (cmd.category) {
       const catKey = cmd.category.toLowerCase();
 
-      // Owner category is never locked
-      if (catKey !== 'owner') {
-        // Check if user has a bypass role (fast path — use already-fetched user)
-        const userRole = context.user?.role || 'User';
-        const isBypass =
-          LOCK_BYPASS_ROLES.has(userRole) ||
-          context.user?.isTrueOwner === true ||
-          context.user?.isCDC === true;
+      // Bypass for staff
+      const userRole = context.user?.role || 'User';
+      const isBypass =
+        LOCK_BYPASS_ROLES.has(userRole) ||
+        context.user?.isTrueOwner === true ||
+        context.user?.isCDC === true;
 
-        if (!isBypass) {
+      if (!isBypass) {
+        // Registration Lock
+        const restrictedCategories = ["economy", "gambling", "pokémon", "pokemons", "lagacy", "legacy"];
+        if (restrictedCategories.includes(catKey)) {
+          const isRegistered = context.user && context.user.moonId && !context.user.moonId.startsWith("moon_");
+          if (!isRegistered) {
+            return context.reply(
+              `🔒 *Access Denied*\n` +
+              `The *${cmd.category}* commands are for registered users only.\n\n` +
+              `👉 Please register at: ${config.WEB}`
+            );
+          }
+        }
+
+        // Database Category Lock
+        if (catKey !== 'owner') {
           const lockDoc = await CategoryLock.findOne({ category: catKey }).lean();
           if (lockDoc?.locked) {
             return context.reply(

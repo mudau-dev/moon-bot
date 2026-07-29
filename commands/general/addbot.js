@@ -9,8 +9,6 @@ moon({
 
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-
-      const ownerNumbers = config.OWNER_NUMBERS || [];
       const senderNumber = sender.split('@')[0];
       const sub = args[0];
 
@@ -19,7 +17,7 @@ moon({
       // =========================
       // 📌 MAIN INFO PANEL
       // =========================
-      if (!sub) {
+      if (!sub || sub === "help") {
         return sock.sendMessage(jid, {
           image: { url: config.MOONLIGHT_IMAGE },
           caption:
@@ -42,142 +40,8 @@ ${readMore}
 .addbot <group link> <reason>
 
 📌 *Example*
-.addbot https://chat.whatsapp.com/XXXX active group with daily chat
-
-📌 *Commands*
-.addbot info
-.addbot info <number>`
+.addbot https://chat.whatsapp.com/XXXX active group with daily chat`
         }, { quoted: m });
-      }
-
-      // =========================
-      // 📋 INFO SYSTEM
-      // =========================
-      if (sub === "info") {
-
-        const users = await User.find({ "botRequests.0": { $exists: true } });
-
-        let allRequests = [];
-        let index = 1;
-
-        users.forEach(user => {
-          user.botRequests.forEach(req => {
-            allRequests.push({
-              index: index++,
-              userDb: user,
-              userId: user.userId,
-              groupLink: req.groupLink,
-              reason: req.reason
-            });
-          });
-        });
-
-        if (!allRequests.length) {
-          return reply("📭 No bot requests found.");
-        }
-
-        const num = parseInt(args[1]);
-
-        // =========================
-        // SINGLE REQUEST VIEW
-        // =========================
-        if (num) {
-          const req = allRequests.find(r => r.index === num);
-
-          if (!req) {
-            return reply("❌ Invalid request number.");
-          }
-
-          return sock.sendMessage(jid, {
-            text:
-`📌 *BOT REQUEST INFO*
-
-👤 User: @${req.userId}
-🔗 Group: ${req.groupLink}
-📝 Reason: ${req.reason}
-
-🆔 Request #: ${req.index}`,
-            mentions: [req.userId]
-          }, { quoted: m });
-        }
-
-        // =========================
-        // FULL LIST
-        // =========================
-        let text = `📋 *BOT REQUESTS*\n\nTotal: ${allRequests.length}\n`;
-
-        allRequests.slice(0, 30).forEach(r => {
-          text += `\n━━━━━━━━━━━━━━━
-#${r.index}
-👤 @${r.userId}
-📝 ${r.reason}
-🔗 ${r.groupLink}`;
-        });
-
-        return sock.sendMessage(jid, {
-          text,
-          mentions: allRequests.map(r => r.userId)
-        }, { quoted: m });
-      }
-
-      // =========================
-      // ❌ DELETE REQUEST (OWNER ONLY)
-      // =========================
-      if (sub === 'del') {
-
-        if (!ownerNumbers.includes(senderNumber)) {
-          return reply("⛔ Owner only.");
-        }
-
-        const index = parseInt(args[1]);
-        const reason = args.slice(2).join(" ").trim();
-
-        if (!index || !reason) {
-          return reply("❌ Usage:\n.addbot del <number> <reason>");
-        }
-
-        const users = await User.find({ "botRequests.0": { $exists: true } });
-
-        let allRequests = [];
-        users.forEach(user => {
-          user.botRequests.forEach(req => {
-            allRequests.push({
-              userDb: user,
-              userId: user.userId,
-              groupLink: req.groupLink
-            });
-          });
-        });
-
-        const target = allRequests.find(r => r.index === index);
-
-        if (!target) {
-          return reply("❌ Request not found.");
-        }
-
-        // notify user (safe)
-        try {
-          await sock.sendMessage(target.userId + "@s.whatsapp.net", {
-            text:
-`❌ *BOT REQUEST DECLINED*
-
-🔗 ${target.groupLink}
-
-📝 Reason:
-${reason}
-
-You may reapply using .addbot`
-          });
-        } catch {}
-
-        // remove from DB
-        target.userDb.botRequests = target.userDb.botRequests.filter(
-          r => r.groupLink !== target.groupLink
-        );
-
-        await target.userDb.save();
-
-        return reply(`✅ Request #${index} deleted.`);
       }
 
       // =========================
@@ -194,29 +58,29 @@ You may reapply using .addbot`
         return reply("❌ Provide a reason.");
       }
 
-      let user = await User.findOne({ userId: senderNumber });
-
-      if (!user) {
-        user = new User({
-          userId: senderNumber,
-          botRequests: []
-        });
+      const { findOrCreateWhatsApp } = require("../../database/users");
+      const userDoc = await findOrCreateWhatsApp(sender);
+      
+      if (!userDoc) {
+        return reply("❌ User not found.");
       }
 
-      const exists = user.botRequests.find(r => r.groupLink === groupLink);
+      const exists = userDoc.botRequests.find(r => r.groupLink === groupLink);
 
       if (exists) {
-        return reply("⚠️ Already requested.");
+        return reply("⚠️ You have already requested the bot for this group.");
       }
 
-      user.botRequests.push({
+      userDoc.botRequests.push({
         groupLink,
-        reason
+        reason,
+        status: "pending",
+        createdAt: new Date()
       });
 
-      await user.save();
+      await userDoc.save();
 
-      return reply("✅ Bot request submitted.");
+      return reply("✅ Your bot request has been submitted successfully. Our team will review it soon.");
 
     } catch (err) {
       console.error("ADDBOT ERROR:", err);
