@@ -160,7 +160,7 @@ async function generateProfileImage(data) {
   ctx.textAlign = "center";
   ctx.font = "bold 16px Sans";
   ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-  ctx.fillText("𝕋𝔼ℕ𝕊𝕌𝔽𝔸 - Family", width / 2, 480);
+  ctx.fillText("𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 • ℙℝ𝕆𝔽𝕀𝕃𝔼", width / 2, 480);
 
   return canvas.toBuffer();
 }
