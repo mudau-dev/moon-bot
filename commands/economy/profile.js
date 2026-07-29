@@ -51,7 +51,7 @@ moon({
       const roleMap = {
         "True Owner": "Owner",
         "Owner":      "Co-owner",
-        "Mod":        "MMod",
+        "Mod":        "Mod",
         "CDC":        "Manager",
         "Tester":     "Tester",
         "User":       "Citizen"
@@ -100,9 +100,9 @@ moon({
 ╰━━━━━━━━━━━━━━━┈\n`;
 
       if (!isRegistered) {
-        caption += `\n🚫 user not registered in Moonlight haven`;
+        caption += `🚫 user not registered in Moonlight haven`;
       } else {
-        caption += `\n*Profile:* ${config.WEB}/user/${user.moonId}`;
+        caption += `*Profile:* ${config.WEB}/user/${user.moonId}`;
       }
 
       await sock.sendMessage(jid, { image: buffer, caption, mentions: [target] }, { quoted: m });
