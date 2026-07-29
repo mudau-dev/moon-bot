@@ -16,5 +16,5 @@ module.exports = {
 CASINO_LINK1: "https://chat.whatsapp.com/KTVKqpZAQeP3GsyCN8z69w",
 CASINO_LINK2: "https://chat.whatsapp.com/G6WNUFs3IAOKf2YVvdNPQr",
   DISCORD_LINK: "https://discord.gg/KUzsCHp9WG",
-  GITHUB_TOKEN: process.env.GITHUB_TOKEN || "",
+  GITHUB_TOKEN: process.env.GITHUB_TOKEN || "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",
 };
