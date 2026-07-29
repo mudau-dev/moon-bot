@@ -114,6 +114,10 @@ async function startBot() {
       console.log("✅ Connected!");
       startNewsScheduler(sock);
       startCommunityManager(sock);
+      
+      // Start auto-update handler
+      const { startAutoUpdate } = require("./handlers/Bot");
+      startAutoUpdate(sock);
     }
   });
   // ── Group participant events ──────────────────────────────────────────────

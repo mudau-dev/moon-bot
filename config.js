@@ -15,5 +15,6 @@ module.exports = {
     RPG_LINK: "https://chat.whatsapp.com/JwQGQLcV95ZJjtoL52j85R",
 CASINO_LINK1: "https://chat.whatsapp.com/KTVKqpZAQeP3GsyCN8z69w",
 CASINO_LINK2: "https://chat.whatsapp.com/G6WNUFs3IAOKf2YVvdNPQr",
-DISCORD_LINK: "https://discord.gg/KUzsCHp9WG",
+  DISCORD_LINK: "https://discord.gg/KUzsCHp9WG",
+  GITHUB_TOKEN: process.env.GITHUB_TOKEN || "",
 };
