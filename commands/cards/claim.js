@@ -16,7 +16,7 @@ moon({
 
       const spawn = activeSpawns[jid];
       if (!spawn) return reply("❌ No active card in this chat.");
-      if (spawn.cardId.toLowerCase() !== cardIdInput) return reply("❌ Wrong Card ID!");
+      if (spawn.cardId.toUpperCase() !== cardIdInput) return reply("❌ Wrong Card ID!");
 
       const card = await Card.findOne({ cardId: spawn.cardId });
       if (!card) {

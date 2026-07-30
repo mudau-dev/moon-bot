@@ -74,12 +74,12 @@ async function spawnCard(sock, jid) {
     await Card.updateOne({ cardId: selected.cardId }, { $inc: { timesSpawned: 1 } });
 
     group.cardsSpawnedThisCycle = (group.cardsSpawnedThisCycle || 0) + 1;
+    group.totalMessages = 0; // Reset progress bar after a successful spawn
+    group.botMessages = 0;
 
-    if (group.cardsSpawnedThisCycle >= 2) {
+    if (group.cardsSpawnedThisCycle >= 10) {
       group.lastSpawn = new Date(now);
       group.cardsSpawnedThisCycle = 0;
-      group.totalMessages = 0;
-      group.botMessages = 0;
     }
 
     await group.save();
