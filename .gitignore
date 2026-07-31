@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Sessions
+session/
+sessions/
+auth_info/
+auth_info_baileys/
+
+# Environment
+.env
+
+# Local configuration
+config.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+tmp/
+temp/
+cache/
