@@ -3,7 +3,7 @@ module.exports = {
   BOT_NAME: "",
   BOT_JID: "@lid", 
   OWNER_NAME: "Kai",
-  MENU_IMAGE: """,
+  MENU_IMAGE: "",
   MOONLIGHT_IMAGE: "https://files.catbox.moe/oj9n60.jpg",
   SESSION_FOLDER: "./sessions",
   
