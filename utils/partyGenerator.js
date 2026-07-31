@@ -44,7 +44,7 @@ async function generatePartyImage(data) {
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 40px Sans";
     ctx.textAlign = "center";
-    ctx.fillText("POKÉMON PARTY", width / 2, 60);
+    ctx.fillText("// POKÉMON - PARTY", width / 2, 60);
     
     ctx.strokeStyle = "rgba(167, 139, 250, 0.5)";
     ctx.lineWidth = 2;
@@ -120,7 +120,7 @@ async function generatePartyImage(data) {
             ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
             ctx.font = "italic 20px Sans";
             ctx.textAlign = "center";
-            ctx.fillText("EMPTY SLOT", x + itemWidth / 2, y + itemHeight / 2 + 10);
+            ctx.fillText("empty slot", x + itemWidth / 2, y + itemHeight / 2 + 10);
         }
     }
 
