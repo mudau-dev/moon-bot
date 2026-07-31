@@ -153,7 +153,6 @@ async function executeWrapped(cmd, sock, jid, sender, args, m, context) {
             return context.reply(
               `🔒 *Access Denied*\n` +
               `The *${cmd.category}* commands are for registered users only.\n\n` +
-              `👉 Please register at: ${config.WEB}`
             );
           }
         }
