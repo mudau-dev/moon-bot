@@ -1,3 +1,4 @@
+const config = require("../../config");
 const WEB = config.WEB;
 
 moon({
