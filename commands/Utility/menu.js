@@ -59,20 +59,12 @@ moon({
       const botName   = config.BOT_NAME;
       const ownerName = config.OWNER_NAME;
 
-      // ── BUILD HEADER ────────────────────────────────────────────────────
-      let text = `╔═══════════════════════════════════╗\n`;
-      text += `║  🌙 *MOONLIGHT HAVEN* 🌙           ║\n`;
-      text += `║  ✨ Command Menu ✨                ║\n`;
-      text += `╚═══════════════════════════════════╝\n\n`;
-      
-      text += `👋 *Welcome, ${username}!*\n\n`;
-      
-      text += `┌─ *Bot Information* ─────────────────\n`;
-      text += `│ 🤖 *Name:* ${botName}\n`;
-      text += `│ 👑 *Creator:* ${ownerName}\n`;
-      text += `│ ⚡ *Prefix:* \`${prefix}\`\n`;
-      text += `│ 📖 *Tip:* Use \`.support\` for help\n`;
-      text += `└─────────────────────────────────────\n\n`;
+      text += `┌─ *Moonlight haven* ─────\n`;
+      text += `│ *My Name:* ${botName}\n`;
+      text += `│ *My Creator:* ${ownerName}\n`;
+      text += `│ *My Prefix:* \`${prefix}\`\n`;
+      text += `│ *Tip:* Use \`.website\` for help\n`;
+      text += `└───────────────\n\n`;
       
       text += `${ReadMore}`;
 
@@ -90,8 +82,8 @@ moon({
         const cfg = CATEGORY_CONFIG[cat] || { emoji: '✨', label: cat.charAt(0) + cat.slice(1).toLowerCase(), color: '⚪' };
         const cmds = [...grouped[cat].values()].sort((a, b) => a.name.localeCompare(b.name));
         
-        text += `${cfg.color} *${cfg.emoji} ${cfg.label.toUpperCase()}* ${cfg.emoji}\n`;
-        text += `┌────────────────────────────────────\n`;
+        text += `*${cfg.emoji} ${cfg.label.toUpperCase()}*\n`;
+        text += `┌─────────────────────\n`;
         
         for (const cmd of cmds) {
           text += `│ ✦ \`${prefix}${cmd.name}\`\n`;
@@ -102,14 +94,8 @@ moon({
             text += `│   ⤷ *${subs.join(' • ')}*\n`;
           }
         }
-        text += `└────────────────────────────────────\n\n`;
+        text += `└─────────────────────\n\n`;
       }
-
-      text += `╔═══════════════════════════════════╗\n`;
-      text += `║ 🌙 *MOONLIGHT HAVEN* 🌙           ║\n`;
-      text += `║ Made with ❤️ by ${ownerName}       ║\n`;
-      text += `╚═══════════════════════════════════╝\n`;
-
       const menuImage = config.MENU_IMAGE;
 
       try {
