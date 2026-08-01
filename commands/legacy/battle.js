@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/battle.js
  * .duelreq @user | .duel yes/no | .use <skill>
@@ -48,7 +49,7 @@ if (target === sender) {
 }
     if (target === sender) return reply('❌ You cannot duel yourself.');
 
-    const p1 = await LegacyPlayer.findOne({ whatsappId: sender });
+    const p1 = await findLegacyPlayer(sender);
     const p2 = await LegacyPlayer.findOne({ whatsappId: target });
 
     if (!p1) return reply('❌ You need a Legacy account. Use *.genesis*.');
@@ -130,7 +131,7 @@ moon({
       if (battle.turn !== sender) return reply(`⏳ It is not your turn! Waiting for *${battle.turn === battle.player1Id ? battle.player1Data.name : battle.player2Data.name}*.`);
 
       const skillName = args.join(' ').toLowerCase();
-      const player = await LegacyPlayer.findOne({ whatsappId: sender });
+      const player = await findLegacyPlayer(sender);
       
       const skill = SKILLS.find(s => s.name.toLowerCase() === skillName);
       if (!skill) return reply('❌ Skill not found. Check *.skills* for your moves.');

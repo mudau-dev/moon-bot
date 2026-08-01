@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/me.js
  * .me — Generate and display the player's Legacy profile card.
@@ -12,7 +13,7 @@ moon({
   description: 'Display your Moonlight Legacy profile card',
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const player = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+      const player = await findLegacyPlayer(sender).lean();
       if (!player) {
         return reply(
           '❌ You don\'t have a Legacy account yet.\n' +

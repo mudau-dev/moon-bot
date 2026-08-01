@@ -48,8 +48,8 @@ async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypass
   // ---------------- CREATE USER ----------------
   if (!user) {
     const userId = whatsappNumber.split("@")[0];
-    // Generate a moonId for new bot users to keep consistency with web
-    const moonId = "moon_" + Math.random().toString(36).slice(2, 10);
+    // Use phone number as moonId so users can log in on the web with their number
+    const moonId = userId;
     user = await User.create({
       moonId,
       whatsappNumber,

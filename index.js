@@ -26,6 +26,8 @@ const { updateEventStats } = require("./commands/gambling/_shared");
 const { startCommunityManager } = require("./handlers/Community");
 // ── NEW: Force-add protection ─────────────────────────────────────────────────
 const { handleForceAdd } = require("./handlers/Bot");
+// ── Admin handler (bot admin check + gstatus) ─────────────────────────────────
+const { handleGstatus } = require("./handlers/Admin");
 const Bot = require("./models/athers/Bot");
 const Group = require("./models/athers/Group");
 const User = require("./models/User");
@@ -184,6 +186,8 @@ async function startBot() {
     if (isGroup) {
       const adminHandled = await handleGroupAdmins(sock, msg);
       if (adminHandled) return;
+      // gstatus detection (status shares in group)
+      handleGstatus(sock, msg).catch(() => {});
     }
     // ── Non-blocking side-handlers ────────────────────────────────────
     handleOwnerTag(sock, msg, body).catch(() => {});

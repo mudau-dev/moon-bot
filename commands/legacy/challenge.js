@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/challenge.js
  * .challenge start / .c start — Start a PvE battle against a bot to progress in RGP stages.
@@ -19,7 +20,7 @@ moon({
         return reply('Usage: *.challenge start* or *.c start* to fight the bot for RGP progression.');
       }
 
-      const player = await LegacyPlayer.findOne({ whatsappId: sender });
+      const player = await findLegacyPlayer(sender);
       if (!player) return reply('❌ No Legacy account. Use *.genesis* first.');
       if (!player.class) return reply('❌ Choose a class first with *.choose*.');
 

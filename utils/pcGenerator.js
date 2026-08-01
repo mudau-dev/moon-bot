@@ -46,6 +46,14 @@ async function generatePCImage(data) {
     ctx.textAlign = "center";
     ctx.fillText("POKÉMON PC STORAGE", width / 2, 60);
     
+    // Trainer name top right
+    if (data.trainerName) {
+        ctx.fillStyle = "#9ca3af";
+        ctx.font = "13px Sans";
+        ctx.textAlign = "right";
+        ctx.fillText("TRAINER: " + data.trainerName.toUpperCase(), width - 20, 38);
+    }
+
     ctx.strokeStyle = "rgba(167, 139, 250, 0.5)";
     ctx.lineWidth = 2;
     ctx.beginPath();

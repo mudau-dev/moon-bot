@@ -72,7 +72,15 @@ function defaultGroup() {
       enabled: false,
       action: "delete"
     },
-    botEnabled: true
+    botEnabled: true,
+    // ── Group Status Detection ──────────────────────────────────────────
+    gstatus: {
+      enabled: false,    // detect when users post status in group
+      deleteMsg: false,  // auto-delete the status-share message
+      warnEnabled: false,
+      warnLimit: 3,      // kick after this many warns
+      warns: {}          // { jid: count }
+    }
   };
 }
 
@@ -102,6 +110,14 @@ function getGroup(groupId) {
   group.antibot = {
     enabled: group.antibot?.enabled ?? def.antibot.enabled,
     action: group.antibot?.action ?? def.antibot.action
+  };
+
+  group.gstatus = {
+    enabled: group.gstatus?.enabled ?? def.gstatus.enabled,
+    deleteMsg: group.gstatus?.deleteMsg ?? def.gstatus.deleteMsg,
+    warnEnabled: group.gstatus?.warnEnabled ?? def.gstatus.warnEnabled,
+    warnLimit: group.gstatus?.warnLimit ?? def.gstatus.warnLimit,
+    warns: group.gstatus?.warns ?? {}
   };
 
   data[groupId] = group;
@@ -141,6 +157,16 @@ function updateAntimention(groupId, updates) {
 
   saveData(data);
   return data[groupId].antimention;
+}
+
+// ---------------- GSTATUS ----------------
+function updateGstatus(groupId, updates) {
+  const data = loadData();
+  if (!data[groupId]) data[groupId] = defaultGroup();
+  if (!data[groupId].gstatus) data[groupId].gstatus = defaultGroup().gstatus;
+  data[groupId].gstatus = { ...data[groupId].gstatus, ...updates };
+  saveData(data);
+  return data[groupId].gstatus;
 }
 
 // ---------------- ANTIBOT ----------------
@@ -229,5 +255,6 @@ module.exports = {
 
   updateAntilink,
   updateAntimention,
-  updateAntibot
+  updateAntibot,
+  updateGstatus
 };

@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/choose.js
  * .choose <class> — Permanently choose your Legacy class.
@@ -43,7 +44,7 @@ moon({
   description: 'Permanently choose your Legacy class',
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const player = await LegacyPlayer.findOne({ whatsappId: sender });
+      const player = await findLegacyPlayer(sender);
       if (!player) {
         return reply('❌ You don\'t have a Legacy account yet.\nUse *.genesis* to create one.');
       }

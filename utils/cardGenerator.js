@@ -392,4 +392,5 @@ findStoredCard,
 searchStoredCards,
 searchCards,
 makeInventoryCard,
+searchApiCards,
 };

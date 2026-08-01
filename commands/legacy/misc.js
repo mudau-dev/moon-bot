@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/misc.js
  * Handles the complete Moonlight Legacy utility set.
@@ -11,7 +12,7 @@ moon({
   aliases: ['stats'],
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     return reply(`📊 *${p.name}'s Status*\n\n❤️ HP: ${p.hp}/${p.maxHp}\n💧 Mana: ${p.mana}/${p.maxMana}\n✨ XP: ${p.xp}/${p.xpToNext}\n⚔️ ATK: ${p.attack} | 🛡️ DEF: ${p.defense}\n📊 Level: ${p.level} | 🏅 Rank: ${p.rank}\n💰 Gold: ${p.gold.toLocaleString()}`);
   }
@@ -21,7 +22,7 @@ moon({
   name: 'skills',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     if (!p.skills || !p.skills.length) return reply('❌ No skills yet. Use *.choose*.');
     return reply(`⚡ *${p.name}'s Skills*\n\n${p.skills.map(s => `• ${s}`).join('\n')}\n\n> Use *.skill-list* to see all 50 possible skills.`);
@@ -32,7 +33,7 @@ moon({
   name: 'honor',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     return reply(`🏅 *${p.name}'s Honor*\n\nRank: *${p.rank}*\nLevel: ${p.level}\nXP: ${p.xp}/${p.xpToNext}\n\n> Progress stages with *.challenge* to rank up!`);
   }
@@ -42,7 +43,7 @@ moon({
   name: 'history',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     const hist = (p.battleHistory || []).slice(-5).reverse();
     if (!hist.length) return reply('📜 No battle history yet.');
@@ -66,7 +67,7 @@ moon({
   name: 'blessing',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender });
+    const p = await findLegacyPlayer(sender);
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     const now = new Date();
     if (p.lastBlessing && (now - p.lastBlessing < 86400000)) return reply('⏳ Already claimed today.');
@@ -80,7 +81,7 @@ moon({
   name: 'rgp',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     const stage = p ? p.stage : 1;
     return reply(`📜 *Legacy Stages*\n\nCurrent Stage: *${stage} / 30*\nProgress: ${p ? p.stageProgress : 0}%\n\n> Use *.challenge start* to progress!`);
   }
@@ -90,7 +91,7 @@ moon({
   name: 'objective',
   category: 'legacy',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const p = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const p = await findLegacyPlayer(sender).lean();
     if (!p) return reply('❌ No Legacy account. Use *.genesis* first.');
     return reply(`🎯 *Current Objective*\n\nStage ${p.stage}: Win battles against the bot Guardian to reach 100% progress and claim rewards!`);
   }

@@ -1,3 +1,4 @@
+const { findLegacyPlayer } = require('../../utils/legacyUtils');
 /**
  * commands/legacy/economy.js
  * .market | .purchase | .consume | .inventory
@@ -35,7 +36,7 @@ moon({
     const item = ITEMS[itemId];
     if (!item) return reply('❌ Item not found. Check *.market* for IDs.');
 
-    const player = await LegacyPlayer.findOne({ whatsappId: sender });
+    const player = await findLegacyPlayer(sender);
     if (!player) return reply('❌ No Legacy account. Use *.genesis*.');
     if (player.gold < item.price) return reply(`❌ Not enough gold! (Need ${item.price}, have ${player.gold})`);
 
@@ -57,7 +58,7 @@ moon({
   category: 'legacy',
   description: 'View your items',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const player = await LegacyPlayer.findOne({ whatsappId: sender }).lean();
+    const player = await findLegacyPlayer(sender).lean();
     if (!player) return reply('❌ No Legacy account. Use *.genesis*.');
 
     if (!player.inventory || !player.inventory.length) {
@@ -76,7 +77,7 @@ moon({
   description: 'Use a consumable item',
   async execute(sock, jid, sender, args, m, { reply }) {
     const itemId = (args[0] || '').toLowerCase();
-    const player = await LegacyPlayer.findOne({ whatsappId: sender });
+    const player = await findLegacyPlayer(sender);
     if (!player) return reply('❌ No Legacy account. Use *.genesis*.');
 
     const invIdx = player.inventory.findIndex(i => i.id === itemId);
