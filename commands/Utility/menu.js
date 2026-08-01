@@ -59,7 +59,7 @@ moon({
       const botName   = config.BOT_NAME;
       const ownerName = config.OWNER_NAME;
 
-      text += `┌─ *Moonlight haven* ─────\n`;
+     let  text += `┌─ *Moonlight haven* ─────\n`;
       text += `│ *My Name:* ${botName}\n`;
       text += `│ *My Creator:* ${ownerName}\n`;
       text += `│ *My Prefix:* \`${prefix}\`\n`;
@@ -113,3 +113,4 @@ moon({
     }
   }
 });
+
