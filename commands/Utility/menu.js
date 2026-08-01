@@ -1,12 +1,7 @@
 /**
  * commands/Utility/menu.js
  * PREMIUM REDESIGN: Moonlight and Tensura Community Menu
- * 
- * Features:
- * - Dynamic category loading
- * - Fancy box styling with Tensura branding
- * - Sub-command listing (doesn't cut them off)
- * - Dynamic user/bot stats
+ * Enhanced with cooler UI styling and animations
  */
 const config = require('../../config');
 const ReadMore = '\u200e'.repeat(4001);
@@ -23,24 +18,24 @@ moon({
 
       // ── CATEGORY CONFIG ──────────────────────────────────────────────────
       const CATEGORY_CONFIG = {
-        GENERAL:      { emoji: '💠', label: 'General' },
-        LEGACY:       { emoji: '⚔️', label: 'Moonlight Legacy' },
-        CARDS:        { emoji: '🎴', label: 'Card Collection' },
-        ECONOMY:      { emoji: '💰', label: 'Economy' },
-        GAMBLING:     { emoji: '🎰', label: 'Gamble' },
-        GAMES:        { emoji: '🎮', label: 'Games' },
-        GUILDS:       { emoji: '🏰', label: 'Guilds' },
-        REALMS:       { emoji: '🌌', label: 'Realms' },
-        SHOP:         { emoji: '🛍️', label: 'Shop' },
-        FUN:          { emoji: '🎭', label: 'Fun' },
-        INTERACTION:  { emoji: '👤', label: 'Interaction' },
-        DOWNLOADERS:  { emoji: '📲', label: 'Downloaders' },
-        SEARCH:       { emoji: '🔍', label: 'Search' },
-        AI:           { emoji: '🤖', label: 'Artificial Intel' },
-        POKÉMON:      { emoji: '🐉', label: 'Pokémon' },
-        UTILITY:      { emoji: '⚙️', label: 'Utility' },
-        EVENT:        { emoji: '🎉', label: 'Events' },
-        NSFW:         { emoji: '🔞', label: 'NSFW' },
+        GENERAL:      { emoji: '💠', label: 'General', color: '🔵' },
+        LEGACY:       { emoji: '⚔️', label: 'Moonlight Legacy', color: '🔴' },
+        CARDS:        { emoji: '🎴', label: 'Card Collection', color: '🟣' },
+        ECONOMY:      { emoji: '💰', label: 'Economy', color: '🟡' },
+        GAMBLING:     { emoji: '🎰', label: 'Gamble', color: '🟠' },
+        GAMES:        { emoji: '🎮', label: 'Games', color: '🟢' },
+        GUILDS:       { emoji: '🏰', label: 'Guilds', color: '🟤' },
+        REALMS:       { emoji: '🌌', label: 'Realms', color: '⚪' },
+        SHOP:         { emoji: '🛍️', label: 'Shop', color: '🔴' },
+        FUN:          { emoji: '🎭', label: 'Fun', color: '🟣' },
+        INTERACTION:  { emoji: '👤', label: 'Interaction', color: '🔵' },
+        DOWNLOADERS:  { emoji: '📲', label: 'Downloaders', color: '🟡' },
+        SEARCH:       { emoji: '🔍', label: 'Search', color: '🟢' },
+        AI:           { emoji: '🤖', label: 'Artificial Intel', color: '🟠' },
+        POKÉMON:      { emoji: '🐉', label: 'Pokémon', color: '🟣' },
+        UTILITY:      { emoji: '⚙️', label: 'Utility', color: '🔵' },
+        EVENT:        { emoji: '🎉', label: 'Events', color: '🟡' },
+        NSFW:         { emoji: '🔞', label: 'NSFW', color: '🔴' },
       };
 
       const ORDER = [
@@ -65,13 +60,20 @@ moon({
       const ownerName = config.OWNER_NAME;
 
       // ── BUILD HEADER ────────────────────────────────────────────────────
-      let text = `╭──❀ 𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 ❀──❀\n`;
-      text += `│ hello ${username}\n`;
-      text += `│ *My Name:* ${botName}\n`;
-      text += `│ *My Creator:* ${ownerName}\n`;
-      text += `│ *My Prefix:* ${prefix}\n`;
-      text += `╰───────────────❀\n`;
-        text += `> Read welcome to the moonlight haven menu..read and understand young one 📜\n`;
+      let text = `╔═══════════════════════════════════╗\n`;
+      text += `║  🌙 *MOONLIGHT HAVEN* 🌙           ║\n`;
+      text += `║  ✨ Command Menu ✨                ║\n`;
+      text += `╚═══════════════════════════════════╝\n\n`;
+      
+      text += `👋 *Welcome, ${username}!*\n\n`;
+      
+      text += `┌─ *Bot Information* ─────────────────\n`;
+      text += `│ 🤖 *Name:* ${botName}\n`;
+      text += `│ 👑 *Creator:* ${ownerName}\n`;
+      text += `│ ⚡ *Prefix:* \`${prefix}\`\n`;
+      text += `│ 📖 *Tip:* Use \`.support\` for help\n`;
+      text += `└─────────────────────────────────────\n\n`;
+      
       text += `${ReadMore}`;
 
       // ── SORT CATEGORIES ─────────────────────────────────────────────────
@@ -85,28 +87,30 @@ moon({
 
       // ── BUILD COMMAND LIST ──────────────────────────────────────────────
       for (const cat of sortedCats) {
-        const cfg = CATEGORY_CONFIG[cat] || { emoji: '✨', label: cat.charAt(0) + cat.slice(1).toLowerCase() };
+        const cfg = CATEGORY_CONFIG[cat] || { emoji: '✨', label: cat.charAt(0) + cat.slice(1).toLowerCase(), color: '⚪' };
         const cmds = [...grouped[cat].values()].sort((a, b) => a.name.localeCompare(b.name));
         
-        text += `*${cfg.emoji} 『${cfg.label.toUpperCase()}』 ${cfg.emoji}*\n`;
-        text += `╭────────────❀\n`;
+        text += `${cfg.color} *${cfg.emoji} ${cfg.label.toUpperCase()}* ${cfg.emoji}\n`;
+        text += `┌────────────────────────────────────\n`;
         
         for (const cmd of cmds) {
-          text += `│• \`${prefix}${cmd.name}\`\n`;
+          text += `│ ✦ \`${prefix}${cmd.name}\`\n`;
           
-          // Subcommands check (e.g., .challenge start, .fill gender)
+          // Subcommands check
           const subs = Array.isArray(cmd.subcommands) && cmd.subcommands.length ? cmd.subcommands : [];
           if (subs.length) {
-            text += `│ ┗⊱ *${subs.join(' • ')}*\n`;
+            text += `│   ⤷ *${subs.join(' • ')}*\n`;
           }
         }
-        text += `╰─────────────\n`;
+        text += `└────────────────────────────────────\n\n`;
       }
 
-      text += `\n*🌙 Moonlight* | ${ownerName}\n`;
-      text += `> _*TIP:* use \`.support\` to get my support community`;
+      text += `╔═══════════════════════════════════╗\n`;
+      text += `║ 🌙 *MOONLIGHT HAVEN* 🌙           ║\n`;
+      text += `║ Made with ❤️ by ${ownerName}       ║\n`;
+      text += `╚═══════════════════════════════════╝\n`;
 
-      const menuImage = config.MENU_IMAGE; // Premium Tensura/Fantasy BG
+      const menuImage = config.MENU_IMAGE;
 
       try {
         return await sock.sendMessage(jid, {
