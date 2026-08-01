@@ -152,7 +152,7 @@ async function executeWrapped(cmd, sock, jid, sender, args, m, context) {
           if (!isRegistered) {
             return context.reply(
               `🔒 *Access Denied*\n` +
-              `The *${cmd.category}* commands are for registered users only.\n\n` +
+              `The *${cmd.category}* commands are for registered users only.\n\n` 
             );
           }
         }
