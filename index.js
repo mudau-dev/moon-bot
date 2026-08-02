@@ -140,7 +140,6 @@ async function startBot() {
     const sender   = isGroup ? msg.key.participant : jid;
     const pushName = msg.pushName || "Unknown";
     const body     = getMessageText(msg);
-      await handleChatBot(sock, msg, body, config);
     const isCmd    = body.startsWith(config.PREFIX);
 
     // ── DM Protection ────────────────────────────────────────────────
@@ -207,6 +206,9 @@ async function startBot() {
       runCommand(sock, jid, sender, msg).then(() => console.log("[DEBUG] runCommand finished.")).catch((e) => {
         console.error("CMD DISPATCH ERROR:", e);
       });
+    } else {
+      // ── ChatBot (only if not a command) ─────────────────────────────
+      await handleChatBot(sock, msg, body, config);
     }
   });
 }

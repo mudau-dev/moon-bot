@@ -29,6 +29,9 @@ async function handleChatBot(sock, msg, body, config) {
 
         if (!isTagged && !isReply && !startsWithName) return;
 
+        // Skip if it's a command
+        if (body.startsWith(config.PREFIX) && config.PREFIX !== "") return;
+
         let prompt = body;
 
         if (startsWithName) {
