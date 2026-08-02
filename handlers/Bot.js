@@ -91,7 +91,7 @@ function startAutoUpdate(sock) {
 
         // If the local branch is behind origin/main
         if (stdout.includes('Your branch is behind')) {
-          console.log('[AUTO-UPDATE] New updates found! Pulling changes...');
+          console.log('detected new changes updating');
           
           // Re-set remote for pull
           exec(`git remote set-url origin ${remote}`, { cwd: rootDir }, () => {
