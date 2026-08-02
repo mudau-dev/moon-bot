@@ -11,7 +11,7 @@ moon({
   usage: '.webcp <password>',
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const userNumber = sender.split('@')[0];
+      const userNumber = sender.replace(/[^0-9]/g, '');
       const password = args.join(' ').trim();
 
       if (!password) {
@@ -30,7 +30,8 @@ moon({
         $or: [
           { whatsappNumber: sender },
           { userId: userNumber },
-          { moonId: userNumber }
+          { moonId: userNumber },
+          { phoneNumber: userNumber }
         ]
       });
 
@@ -51,10 +52,7 @@ moon({
       }
 
       // Ensure moonId is set to phone number
-      if (!user.moonId || user.moonId.startsWith('moon_')) {
-        user.moonId = userNumber;
-      }
-
+      user.moonId = userNumber;
       user.webPassword = await bcrypt.hash(password, 10);
       user.webPasswordUpdatedAt = new Date();
       await user.save();
@@ -91,13 +89,14 @@ moon({
   description: 'Shows your Moonlight Haven website account.',
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const userNumber = sender.split('@')[0];
+      const userNumber = sender.replace(/[^0-9]/g, '');
 
       let user = await User.findOne({
         $or: [
           { whatsappNumber: sender },
           { userId: userNumber },
-          { moonId: userNumber }
+          { moonId: userNumber },
+          { phoneNumber: userNumber }
         ]
       });
 
@@ -108,7 +107,7 @@ moon({
         );
       }
 
-      if (!user.moonId || user.moonId.startsWith('moon_')) {
+      if (!user.moonId || user.moonId.includes('@')) {
         user.moonId = userNumber;
         await user.save();
       }
@@ -140,10 +139,12 @@ moon({
   usage: '.otp',
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
-      const userNumber = sender.split('@')[0];
-      const pending = getOTP(userNumber) || getOTP(sender);
+      const userNumber = sender.replace(/[^0-9]/g, '');
+      
+      // Use the async getOTP from database-backed store
+      const otpCode = await getOTP(userNumber);
 
-      if (!pending) {
+      if (!otpCode) {
         return reply(
           '❌ *No OTP request found.*\n\n' +
           '> To reset your password:\n' +
@@ -154,11 +155,9 @@ moon({
         );
       }
 
-      if (Date.now() > pending.expiresAt) {
-        return reply('❌ Your OTP has *expired*. Please request a new one on the website.');
-      }
-
-      const timeLeft = Math.ceil((pending.expiresAt - Date.now()) / 1000);
+      // Re-fetch user to get expiry time
+      const user = await User.findOne({ moonId: userNumber });
+      const timeLeft = user?.otpExpires ? Math.ceil((new Date(user.otpExpires).getTime() - Date.now()) / 1000) : 0;
 
       try {
         await sock.sendMessage(jid, { delete: m.key });
@@ -169,7 +168,7 @@ moon({
           '🔐 *MOONLIGHT HAVEN — OTP*\n' +
           '─────────────『❀』\n' +
           '🔑 *Your OTP Code:*\n' +
-          '`' + pending.otp + '`\n' +
+          '`' + otpCode + '`\n' +
           '⏳ *Expires in:* ' + timeLeft + 's\n' +
           '─────────────『❀』\n' +
           '> Enter this code on the website to reset your password.\n' +

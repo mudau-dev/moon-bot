@@ -15,9 +15,6 @@ function setCache(key, user) {
 async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypassCache = false) {
   if (!whatsappNumber) throw new Error("Missing WhatsApp ID");
 
-  // NEW LOGIC: Use the full number (whatsappNumber) instead of split ID
-  // whatsappNumber is usually '1234567890@s.whatsapp.net'
-  
   // ---------------- CACHE ----------------
   if (!bypassCache) {
     const cached = userCache.get(whatsappNumber);
@@ -29,15 +26,16 @@ async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypass
   let user = await User.findOne({ whatsappNumber });
 
   // 2. If not found, try phoneNumber (from web registration)
+  const digits = whatsappNumber.replace(/[^0-9]/g, '');
   if (!user) {
-    const digits = whatsappNumber.split("@")[0];
     user = await User.findOne({ 
       $or: [
         { phoneNumber: digits },
+        { moonId: digits },
         { whatsappNumber: digits }
       ]
     });
-    
+
     if (user) {
       // Link the whatsappNumber to this existing web user
       user.whatsappNumber = whatsappNumber;
@@ -47,13 +45,12 @@ async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypass
 
   // ---------------- CREATE USER ----------------
   if (!user) {
-    const userId = whatsappNumber.split("@")[0];
-    // Use phone number as moonId so users can log in on the web with their number
-    const moonId = userId;
+    // Use phone number digits as moonId
+    const moonId = digits;
     user = await User.create({
       moonId,
       whatsappNumber,
-      userId,
+      userId: digits,
       username,
       createdAt: Date.now()
     });
@@ -66,6 +63,12 @@ async function findOrCreateWhatsApp(whatsappNumber, username = "Unknown", bypass
     changed = true;
   }
   
+  // Ensure moonId is digits only if it was somehow set to something else
+  if (user.moonId && user.moonId.includes('@')) {
+    user.moonId = user.moonId.replace(/[^0-9]/g, '');
+    changed = true;
+  }
+
   if (changed) {
     await user.save();
   }

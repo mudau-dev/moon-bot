@@ -8,7 +8,7 @@ moon({
   description: "Register your Moonlight Haven account.",
   async execute(sock, jid, sender, args, m, { reply, pushName }) {
     try {
-      const userNumber = sender.split('@')[0];
+      const userNumber = sender.replace(/[^0-9]/g, '');
 
       // Fetch or create user
       const user = await findOrCreateWhatsApp(sender, pushName || "Unknown");
@@ -92,7 +92,7 @@ moon({
   description: "Check if you are registered in Moonlight Haven.",
   async execute(sock, jid, sender, args, m, { reply, pushName }) {
     try {
-      const userNumber = sender.split('@')[0];
+      const userNumber = sender.replace(/[^0-9]/g, '');
       const user = await User.findOne({
         $or: [
           { whatsappNumber: sender },

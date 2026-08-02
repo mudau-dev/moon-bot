@@ -85,6 +85,8 @@ const UserSchema = new mongoose.Schema(
     moonId: { type: String, unique: true, sparse: true },
     webPassword: { type: String, default: null },
     webPasswordUpdatedAt: { type: Date, default: null },
+    otp: { type: String, default: null },
+    otpExpires: { type: Date, default: null },
     // ── Cards ────────────────────────────────────────────────
     cards: [CardSchema],
     cardLimit: { type: Number, default: 100 },

@@ -1,61 +1,97 @@
 // utils/otpStore.js
-// Shared in-memory OTP store used by both the web API and the .otp bot command.
-// OTPs expire after 4 minutes (240,000 ms).
+// Database-backed OTP store shared by bot and web.
+// OTPs expire after 4 minutes.
+
+const User = require('../models/User');
 
 const OTP_TTL = 4 * 60 * 1000; // 4 minutes
 
-const store = new Map(); // { userNumber: { otp, expiresAt } }
-
 /**
- * Generate and store a new OTP for a user number.
- * @param {string} userNumber - The user's phone number (digits only, no @s.whatsapp.net)
- * @returns {{ otp: string, expiresAt: number }}
+ * Generate and store a new OTP for a user in the database.
+ * @param {string} userNumber - The phone number digits
+ * @returns {Promise<{ otp: string, expiresAt: number }>}
  */
-function createOTP(userNumber) {
+async function createOTP(userNumber) {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  const expiresAt = Date.now() + OTP_TTL;
-  store.set(userNumber, { otp, expiresAt });
-  // Auto-clean after TTL
-  setTimeout(() => {
-    const entry = store.get(userNumber);
-    if (entry && entry.expiresAt <= Date.now()) {
-      store.delete(userNumber);
-    }
-  }, OTP_TTL + 1000);
-  return { otp, expiresAt };
-}
+  const expiresAt = new Date(Date.now() + OTP_TTL);
 
-/**
- * Verify an OTP for a user number.
- * @param {string} userNumber
- * @param {string} otp
- * @returns {{ valid: boolean, reason?: string }}
- */
-function verifyOTP(userNumber, otp) {
-  const entry = store.get(userNumber);
-  if (!entry) return { valid: false, reason: 'NOT_FOUND' };
-  if (Date.now() > entry.expiresAt) {
-    store.delete(userNumber);
-    return { valid: false, reason: 'EXPIRED' };
+  // Find user by moonId (phone number) or whatsappNumber
+  const user = await User.findOneAndUpdate(
+    { 
+      $or: [
+        { moonId: userNumber },
+        { phoneNumber: userNumber },
+        { whatsappNumber: new RegExp(userNumber) }
+      ]
+    },
+    { 
+      $set: { 
+        otp, 
+        otpExpires: expiresAt 
+      } 
+    },
+    { new: true }
+  );
+
+  if (!user) {
+    throw new Error("User not found in database.");
   }
-  if (entry.otp !== String(otp)) return { valid: false, reason: 'WRONG_OTP' };
-  store.delete(userNumber); // Single-use
-  return { valid: true };
+
+  return { otp, expiresAt: expiresAt.getTime() };
 }
 
 /**
- * Get a pending OTP entry (for the bot .otp command to display).
+ * Get the current valid OTP for a user.
  * @param {string} userNumber
- * @returns {{ otp: string, expiresAt: number } | null}
+ * @returns {Promise<string|null>}
  */
-function getOTP(userNumber) {
-  const entry = store.get(userNumber);
-  if (!entry) return null;
-  if (Date.now() > entry.expiresAt) {
-    store.delete(userNumber);
+async function getOTP(userNumber) {
+  const user = await User.findOne({
+    $or: [
+      { moonId: userNumber },
+      { phoneNumber: userNumber },
+      { whatsappNumber: new RegExp(userNumber) }
+    ]
+  });
+
+  if (!user || !user.otp || !user.otpExpires) return null;
+
+  // Check if expired
+  if (new Date(user.otpExpires) < new Date()) {
+    // Clear expired OTP
+    await User.updateOne({ _id: user._id }, { $set: { otp: null, otpExpires: null } });
     return null;
   }
-  return entry;
+
+  return user.otp;
 }
 
-module.exports = { createOTP, verifyOTP, getOTP, store };
+/**
+ * Verify and clear an OTP.
+ * @param {string} userNumber
+ * @param {string} otp
+ * @returns {Promise<boolean>}
+ */
+async function verifyOTP(userNumber, otp) {
+  const currentOtp = await getOTP(userNumber);
+  if (!currentOtp || currentOtp !== otp) return false;
+
+  // Clear after successful verification
+  await User.updateOne(
+    { 
+      $or: [
+        { moonId: userNumber },
+        { phoneNumber: userNumber },
+        { whatsappNumber: new RegExp(userNumber) }
+      ]
+    }, 
+    { $set: { otp: null, otpExpires: null } }
+  );
+  return true;
+}
+
+module.exports = {
+  createOTP,
+  getOTP,
+  verifyOTP
+};
