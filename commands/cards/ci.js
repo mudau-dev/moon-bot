@@ -130,6 +130,8 @@ moon({
       }
 
       // ── 5. Build card info text ────────────────────────────────────────
+      // Count total owners from DB
+      const totalOwners = await User.countDocuments({ "cards.cardId": card.cardId });
       const owners = await User.find({ "cards.cardId": card.cardId })
         .select("username pushName name whatsappNumber moonId")
         .limit(5)
@@ -144,7 +146,7 @@ moon({
                     u.username || u.pushName || u.name || u.moonId || "Unknown"
                   }`
               )
-              .join("\n")
+              .join("\n") + (totalOwners > 5 ? `\n... and ${totalOwners - 5} more` : "")
           : "No owners yet";
 
       const tierLabel = getTierLabel(card.tier);
@@ -163,7 +165,7 @@ moon({
         `✍️ *Creator:* ${card.creator || "Eclipse Card API"}\n` +
         `📝 *Description:* ${card.description || "No description."}\n` +
         `─────────────────────────\n` +
-        `👥 *Owners (top 5):*\n${ownerText}`;
+        `👥 *Owners (${totalOwners} total):*\n${ownerText}`;
 
       // ── 6. Send with image/video if available ─────────────────────────
       const payload = buildMediaPayload(card, caption);

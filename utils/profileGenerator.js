@@ -1,36 +1,34 @@
-const { createCanvas, loadImage, registerFont } = require("canvas");
+/**
+ * utils/profileGenerator.js
+ * Generates a profile image card for WhatsApp.
+ * - Uses DEFAULT_ICON for unregistered users (no avatar set)
+ * - Uses DEFAULT_BACKGROUND as fallback background
+ * - Draws real decorative ring frames around the avatar
+ * - Owner frames have animated multi-ring effect
+ */
+const { createCanvas, loadImage } = require("canvas");
 
-// Mappings for frames from moon-web/lib/profileFrames.ts
-const FRAME_OVERLAYS = {
-  'classic': { color: '#a78bfa', glow: 'rgba(167, 139, 250, 0.5)' },
-  'moonviolet': { color: '#9d4edd', glow: 'rgba(157, 78, 221, 0.8)' },
-  'cyan': { color: '#06b6d4', glow: 'rgba(6, 182, 212, 0.5)' },
-  'gold': { color: '#fbbf24', glow: 'rgba(251, 191, 36, 0.8)' },
-  'emerald': { color: '#10b981', glow: 'rgba(16, 185, 129, 0.5)' },
-  'rose': { color: '#f43f5e', glow: 'rgba(244, 63, 94, 0.5)' },
-  'sky': { color: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.5)' },
-  'sunset': { color: '#fb923c', glow: 'rgba(251, 146, 60, 0.5)' },
-  'forest': { color: '#16a34a', glow: 'rgba(22, 163, 74, 0.5)' },
-  'ocean': { color: '#2563eb', glow: 'rgba(37, 99, 235, 0.5)' },
-  'twilight': { color: '#a855f7', glow: 'rgba(168, 85, 247, 0.5)' },
-  'mint': { color: '#14b8a6', glow: 'rgba(20, 184, 166, 0.5)' },
-  'lavender': { color: '#c084fc', glow: 'rgba(192, 132, 252, 0.5)' },
-  'coral': { color: '#ec4899', glow: 'rgba(236, 72, 153, 0.5)' },
-  'silver': { color: '#94a3b8', glow: 'rgba(148, 163, 184, 0.5)' },
-  'owner_cosmic': { color: '#a855f7', glow: 'rgba(168, 85, 247, 0.8)', gradient: ['#a855f7', '#3b82f6'] },
-  'owner_flame': { color: '#dc2626', glow: 'rgba(220, 38, 38, 0.8)', gradient: ['#dc2626', '#f59e0b'] },
-  'owner_aurora': { color: '#10b981', glow: 'rgba(16, 185, 129, 0.8)', gradient: ['#10b981', '#0ea5e9'] },
-  'owner_void': { color: '#7c3aed', glow: 'rgba(124, 58, 237, 0.8)', gradient: ['#7c3aed', '#000000'] },
-  'owner_celestial': { color: '#fbbf24', glow: 'rgba(251, 191, 36, 0.8)', gradient: ['#fbbf24', '#f59e0b'] },
+const DEFAULT_ICON = "https://d.uguu.se/StNMkQts";
+const DEFAULT_BACKGROUND = "https://d.uguu.se/StNMkQts";
+
+const FRAMES = {
+  classic:         { color: "#a78bfa", glow: "rgba(167,139,250,0.6)", gradient: null, ownerOnly: false, animated: false },
+  sunset:          { color: "#fb923c", glow: "rgba(251,146,60,0.5)",  gradient: null, ownerOnly: false, animated: false },
+  forest:          { color: "#16a34a", glow: "rgba(22,163,74,0.5)",   gradient: null, ownerOnly: false, animated: false },
+  ocean:           { color: "#2563eb", glow: "rgba(37,99,235,0.5)",   gradient: null, ownerOnly: false, animated: false },
+  twilight:        { color: "#a855f7", glow: "rgba(168,85,247,0.5)",  gradient: null, ownerOnly: false, animated: false },
+  mint:            { color: "#14b8a6", glow: "rgba(20,184,166,0.5)",  gradient: null, ownerOnly: false, animated: false },
+  coral:           { color: "#ec4899", glow: "rgba(236,72,153,0.5)",  gradient: null, ownerOnly: false, animated: false },
+  silver:          { color: "#94a3b8", glow: "rgba(148,163,184,0.5)", gradient: null, ownerOnly: false, animated: false },
+  owner_cosmic:    { color: "#a855f7", glow: "rgba(168,85,247,0.9)",  gradient: ["#a855f7","#3b82f6"], ownerOnly: true, animated: true },
+  owner_flame:     { color: "#dc2626", glow: "rgba(220,38,38,0.9)",   gradient: ["#dc2626","#f59e0b"], ownerOnly: true, animated: true },
+  owner_aurora:    { color: "#10b981", glow: "rgba(16,185,129,0.9)",  gradient: ["#10b981","#0ea5e9"], ownerOnly: true, animated: true },
+  owner_void:      { color: "#7c3aed", glow: "rgba(124,58,237,0.9)",  gradient: ["#7c3aed","#1e1b4b"], ownerOnly: true, animated: true },
+  owner_celestial: { color: "#fbbf24", glow: "rgba(251,191,36,0.9)",  gradient: ["#fbbf24","#f59e0b"], ownerOnly: true, animated: true },
 };
 
 async function loadImageSafe(url) {
-  try {
-    if (!url) return null;
-    return await loadImage(url);
-  } catch {
-    return null;
-  }
+  try { if (!url) return null; return await loadImage(url); } catch { return null; }
 }
 
 function drawCircularImage(ctx, img, x, y, size) {
@@ -43,126 +41,155 @@ function drawCircularImage(ctx, img, x, y, size) {
   ctx.restore();
 }
 
-async function generateProfileImage(data) {
-  const width = 500;
-  const height = 500;
-  const canvas = createCanvas(width, height);
+function drawFrame(ctx, frameInfo, cx, cy, radius, animPhase = 0) {
+  const { color, glow, gradient, animated } = frameInfo;
+  ctx.save();
+  ctx.shadowBlur = animated ? 30 : 18;
+  ctx.shadowColor = glow;
+  if (gradient) {
+    const grad = ctx.createLinearGradient(cx - radius, cy - radius, cx + radius, cy + radius);
+    grad.addColorStop(0, gradient[0]);
+    grad.addColorStop(1, gradient[1]);
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 8, 0, Math.PI * 2);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 3, 0, Math.PI * 2);
+    ctx.strokeStyle = gradient[0];
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.6;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    if (animated) {
+      for (let i = 0; i < 6; i++) {
+        const start = (i / 6) * Math.PI * 2 + animPhase;
+        const end = start + Math.PI / 6;
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius + 14, start, end);
+        ctx.strokeStyle = gradient[i % 2 === 0 ? 0 : 1];
+        ctx.lineWidth = 5;
+        ctx.globalAlpha = 0.85;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+  } else {
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 6, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 4;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius + 2, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1.5;
+    ctx.globalAlpha = 0.5;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+}
+
+async function _renderFrame(data, animPhase) {
+  const W = 500, H = 500;
+  const canvas = createCanvas(W, H);
   const ctx = canvas.getContext("2d");
 
-  // 1. Background
-  const bg = await loadImageSafe(data.bannerUrl || data.backgroundImage || "https://i.ibb.co/L50k8fW/haven-festival.jpg");
+  const bgUrl = data.bannerUrl || data.backgroundImage || DEFAULT_BACKGROUND;
+  const bg = await loadImageSafe(bgUrl);
   if (bg) {
     const aspect = bg.width / bg.height;
     let dw, dh, dx, dy;
-    if (aspect > 1) {
-      dh = height;
-      dw = dh * aspect;
-      dx = (width - dw) / 2;
-      dy = 0;
-    } else {
-      dw = width;
-      dh = dw / aspect;
-      dx = 0;
-      dy = (height - dh) / 2;
-    }
+    if (aspect > 1) { dh = H; dw = dh * aspect; dx = (W - dw) / 2; dy = 0; }
+    else             { dw = W; dh = dw / aspect; dx = 0; dy = (H - dh) / 2; }
     ctx.drawImage(bg, dx, dy, dw, dh);
   } else {
-    ctx.fillStyle = "#0a0a0a";
-    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = "#0a0a0a"; ctx.fillRect(0, 0, W, H);
   }
+  ctx.fillStyle = "rgba(0,0,0,0.5)"; ctx.fillRect(0, 0, W, H);
 
-  // Overlay for readability
-  ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-  ctx.fillRect(0, 0, width, height);
-
-  // 2. Avatar
   const avatarSize = 160;
-  const avatarX = (width - avatarSize) / 2;
-  const avatarY = 80;
-  
-  const avatar = await loadImageSafe(data.avatarUrl || data.profileImage || "https://ui-avatars.com/api/?name=" + (data.username || "U"));
-  
-  // Frame settings
-  const frameInfo = FRAME_OVERLAYS[data.profileFrame] || FRAME_OVERLAYS['classic'];
-  
-  // Draw glow
-  ctx.save();
-  ctx.shadowBlur = 20;
-  ctx.shadowColor = frameInfo.glow;
-  ctx.beginPath();
-  ctx.arc(width / 2, avatarY + avatarSize / 2, avatarSize / 2 + 5, 0, Math.PI * 2);
-  ctx.strokeStyle = frameInfo.color;
-  ctx.lineWidth = 4;
-  
-  if (frameInfo.gradient) {
-    const grad = ctx.createLinearGradient(avatarX, avatarY, avatarX + avatarSize, avatarY + avatarSize);
-    grad.addColorStop(0, frameInfo.gradient[0]);
-    grad.addColorStop(1, frameInfo.gradient[1]);
-    ctx.strokeStyle = grad;
-  }
-  
-  ctx.stroke();
-  ctx.restore();
+  const avatarX = (W - avatarSize) / 2;
+  const avatarY = 60;
+  const cx = avatarX + avatarSize / 2;
+  const cy = avatarY + avatarSize / 2;
+  const r  = avatarSize / 2;
+
+  const avatarUrl = data.avatarUrl || data.profileImage || DEFAULT_ICON;
+  const avatar = await loadImageSafe(avatarUrl);
+  const frameInfo = FRAMES[data.profileFrame] || FRAMES["classic"];
+  drawFrame(ctx, frameInfo, cx, cy, r, animPhase);
 
   if (avatar) {
     drawCircularImage(ctx, avatar, avatarX, avatarY, avatarSize);
+  } else {
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = "#1e1b4b"; ctx.fill();
+    ctx.fillStyle = "#ffffff"; ctx.font = "bold 48px Sans";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText((data.username || "?")[0].toUpperCase(), cx, cy);
+    ctx.restore();
   }
 
-  // 3. User Info
-  ctx.textAlign = "center";
-  
-  // Username
-  ctx.fillStyle = "#ffcc00"; // Golden color for name as in reference
-  ctx.font = "bold 28px Sans";
-  ctx.fillText(data.username || "Unknown", width / 2, 280);
+  ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+  ctx.fillStyle = "#ffcc00"; ctx.font = "bold 30px Sans";
+  ctx.shadowBlur = 8; ctx.shadowColor = "rgba(255,204,0,0.4)";
+  ctx.fillText(data.username || "Unknown", W / 2, 268);
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#c4b5fd"; ctx.font = "italic 16px Sans";
+  ctx.fillText(`✦ ${data.role || "Moon Citizen"} ✦`, W / 2, 292);
+  ctx.fillStyle = "#e2e8f0"; ctx.font = "18px Sans";
+  ctx.fillText(`Rank ${data.rank || 0}  •  Level ${data.level || 1}`, W / 2, 320);
 
-  // Role/Title
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "18px Sans";
-  ctx.fillText(`(${data.role || "Moon Citizen"})`, width / 2, 310);
+  const bW = 300, bH = 18, bX = (W - bW) / 2, bY = 338;
+  const prog = Math.min((data.xp || 0) / Math.max(data.xpTarget || 100, 1), 1);
+  ctx.fillStyle = "rgba(255,255,255,0.15)";
+  ctx.beginPath(); ctx.roundRect(bX, bY, bW, bH, 9); ctx.fill();
+  if (prog > 0) {
+    const g = ctx.createLinearGradient(bX, bY, bX + bW, bY);
+    g.addColorStop(0, "#6d28d9"); g.addColorStop(1, "#3b82f6");
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.roundRect(bX, bY, bW * prog, bH, 9); ctx.fill();
+  }
+  ctx.fillStyle = "#ffffff"; ctx.font = "12px Sans";
+  ctx.fillText(`${data.xp || 0} / ${data.xpTarget || 100} XP`, W / 2, bY + 13);
 
-  // Rank and Level
-  ctx.font = "22px Sans";
-  ctx.fillText(`Rank ${data.rank || 0} Level ${data.level || 1}`, width / 2, 345);
+  ctx.textAlign = "left"; ctx.font = "14px Sans"; ctx.fillStyle = "rgba(255,255,255,0.85)";
+  ctx.fillText(`💰 ${(data.balance || data.bank || 0).toLocaleString()}`, 16, 26);
+  ctx.fillText(`👛 ${(data.wallet || 0).toLocaleString()}`, 16, 46);
+  ctx.textAlign = "right";
+  ctx.fillText(`🃏 ${data.cardCount || (data.cards && data.cards.length) || 0} cards`, W - 16, 26);
 
-  // 4. XP Bar
-  const barWidth = 300;
-  const barHeight = 20;
-  const barX = (width - barWidth) / 2;
-  const barY = 365;
-  
-  // Bar background
-  ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-  ctx.beginPath();
-  ctx.roundRect(barX, barY, barWidth, barHeight, 10);
-  ctx.fill();
-  
-  // Bar progress
-  const progress = Math.min((data.xp || 0) / (data.xpTarget || 100), 1);
-  ctx.fillStyle = "#3498db"; // Blue progress bar
-  ctx.beginPath();
-  ctx.roundRect(barX, barY, barWidth * progress, barHeight, 10);
-  ctx.fill();
-  
-  // XP Text
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "14px Sans";
-  ctx.fillText(`${data.xp || 0} / ${data.xpTarget || 100} XP`, width / 2, barY + 15);
+  ctx.strokeStyle = "rgba(167,139,250,0.4)"; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(40, 380); ctx.lineTo(W - 40, 380); ctx.stroke();
 
-  // 5. Economy (Top Left)
-  ctx.textAlign = "left";
-  ctx.font = "16px Sans";
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText(`Bank: ${data.bank?.toLocaleString() || 0}`, 20, 30);
-  ctx.fillText(`Wallet: ${data.wallet?.toLocaleString() || 0}`, 20, 55);
+  const sY = 400, c1 = W / 4, c2 = W / 2, c3 = (W * 3) / 4;
+  ctx.textAlign = "center"; ctx.font = "13px Sans"; ctx.fillStyle = "rgba(255,255,255,0.7)";
+  ctx.fillText("MESSAGES", c1, sY); ctx.fillStyle = "#a78bfa"; ctx.font = "bold 16px Sans"; ctx.fillText(data.messageCount || 0, c1, sY + 20);
+  ctx.fillStyle = "rgba(255,255,255,0.7)"; ctx.font = "13px Sans"; ctx.fillText("BALANCE", c2, sY);
+  ctx.fillStyle = "#fbbf24"; ctx.font = "bold 16px Sans"; ctx.fillText((data.balance || 0).toLocaleString(), c2, sY + 20);
+  ctx.fillStyle = "rgba(255,255,255,0.7)"; ctx.font = "13px Sans"; ctx.fillText("CARDS", c3, sY);
+  ctx.fillStyle = "#34d399"; ctx.font = "bold 16px Sans"; ctx.fillText(data.cardCount || (data.cards && data.cards.length) || 0, c3, sY + 20);
 
-  // 6. Footer
-  ctx.textAlign = "center";
-  ctx.font = "bold 16px Sans";
-  ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-  ctx.fillText("𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 • ℙℝ𝕆𝔽𝕀𝕃𝔼", width / 2, 480);
+  ctx.textAlign = "center"; ctx.font = "bold 14px Sans"; ctx.fillStyle = "rgba(255,255,255,0.5)";
+  ctx.fillText("𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 • ℙℝ𝕆𝔽𝕀𝕃𝔼", W / 2, 478);
 
   return canvas.toBuffer();
 }
 
-module.exports = { generateProfileImage };
+async function generateProfileImage(data) {
+  return _renderFrame(data, 0);
+}
+
+async function generateAnimatedProfileFrames(data, frameCount = 8) {
+  const frames = [];
+  for (let i = 0; i < frameCount; i++) {
+    frames.push(await _renderFrame(data, (i / frameCount) * Math.PI * 2));
+  }
+  return frames;
+}
+
+module.exports = { generateProfileImage, generateAnimatedProfileFrames, FRAMES, DEFAULT_ICON, DEFAULT_BACKGROUND };

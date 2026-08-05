@@ -1,7 +1,7 @@
 const User = require('../../models/User');
 const Guild = require('../../models/athers/Guild');
 const moment = require('moment-timezone');
-const { generateProfileImage } = require('../../utils/profileGenerator');
+const { generateProfileImage, generateAnimatedProfileFrames, FRAMES, DEFAULT_ICON } = require('../../utils/profileGenerator');
 const { findOrCreateWhatsApp } = require('../../database/users');
 
 function calcLevelXP(messageCount) {
@@ -63,24 +63,32 @@ moon({
       const rank = isRegistered ? (await User.countDocuments({ balance: { $gt: user.balance } }) + 1) : 0;
       const { level, xp, xpTarget } = calcLevelXP(user?.messageCount || 0);
       
+      // Fetch WhatsApp profile picture; fall back to stored avatar, then DEFAULT_ICON
       let profileImage = null;
       try {
         profileImage = await sock.profilePictureUrl(target, 'image');
       } catch {}
 
+      const frameId = isRegistered ? (user.profileFrame || 'classic') : 'classic';
+      const frameInfo = FRAMES[frameId] || FRAMES['classic'];
+
       const profileData = {
-        username: isRegistered ? (user.username || id) : "A/N",
+        username: isRegistered ? (user.username || id) : "Unregistered",
         bank: isRegistered ? bank : 0,
         wallet: isRegistered ? wallet : 0,
-        bio: isRegistered ? (user.bio && user.bio !== "." ? user.bio : "A/N") : "A/N",
+        balance: isRegistered ? wallet : 0,
+        bio: isRegistered ? (user.bio && user.bio !== "." ? user.bio : "No bio set") : "Not registered",
         rank: isRegistered ? rank : 0,
         level: isRegistered ? level : 0,
         xp: isRegistered ? xp : 0,
         xpTarget: isRegistered ? xpTarget : 100,
         role: displayRole,
-        profileImage: profileImage || (isRegistered ? user.avatarUrl : null),
+        // Use WhatsApp pic → stored avatar → DEFAULT_ICON (for unregistered or no avatar)
+        profileImage: profileImage || (isRegistered ? user.avatarUrl : null) || DEFAULT_ICON,
         bannerUrl: isRegistered ? (user.bannerUrl || user.backgroundImage) : null,
-        profileFrame: isRegistered ? user.profileFrame : 'classic'
+        profileFrame: frameId,
+        cardCount: isRegistered ? (user.cards ? user.cards.length : 0) : 0,
+        messageCount: isRegistered ? (user.messageCount || 0) : 0,
       };
 
       const buffer = await generateProfileImage(profileData);
@@ -100,7 +108,7 @@ moon({
 ╰━━━━━━━━━━━━━━━┈\n`;
 
       if (!isRegistered) {
-        caption += `🚫 user not registered in Moonlight haven`;
+        caption += `🚫 User not registered in Moonlight Haven`;
       } else {
         caption += `*Profile:* ${config.WEB}/user/${user.moonId}`;
       }
