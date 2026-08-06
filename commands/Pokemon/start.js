@@ -12,9 +12,9 @@ moon({
   async execute(sock, jid, sender, args, m, { reply }) {
     const link = `${config.WEB}/poke/start-journey`;
     return reply(
+      `${link}` +
       `🚀 *Start Your Pokémon Journey!*\n\n` +
       `Visit the link below to choose your starter Pokémon and begin your adventure:\n\n` +
-      `🔗 ${link}`
     );
   },
 });
