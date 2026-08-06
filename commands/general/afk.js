@@ -36,14 +36,13 @@ moon({
       }
 
       return reply(
-`🌙 *AFK Enabled*
-
-👤 *User:* ${name}
-📝 *Reason:* ${reason}
-💤 You are now marked as AFK.
-
-_The bot will notify others if they tag you._`
-      );
+`🌙 *you are now AFK*
+${name} is now AFK
+*Reason:* 
+> ${reason}
+💤 You are now marked as AFK. have fun ${name}
+`
+     );
 
     } catch (err) {
       console.error("[AFK CMD ERROR]", err);
