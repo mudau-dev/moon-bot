@@ -21,7 +21,7 @@ moon({
       const ticketIndex = user.inventory ? user.inventory.findIndex(item => item.name.toLowerCase().includes("lottery ticket")) : -1;
       
       if (ticketIndex === -1) {
-        return reply("❌ You need a *Lottery Ticket* to join the lottery!\n🛒 Buy one at the `.shop` for 1,500 coins.");
+        return reply("❌ You need a *Lottery Ticket* to join the lottery!\n> 🛒 Buy one at the shop using `.shop` fore link");
       }
 
       // Load or Create Lottery
