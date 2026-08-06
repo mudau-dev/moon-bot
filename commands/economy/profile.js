@@ -73,11 +73,11 @@ moon({
       const frameInfo = FRAMES[frameId] || FRAMES['classic'];
 
       const profileData = {
-        username: isRegistered ? (user.username || id) : "Unregistered",
+        username: isRegistered ? (user.username || id) : "N/A",
         bank: isRegistered ? bank : 0,
         wallet: isRegistered ? wallet : 0,
         balance: isRegistered ? wallet : 0,
-        bio: isRegistered ? (user.bio && user.bio !== "." ? user.bio : "No bio set") : "Not registered",
+        bio: isRegistered ? (user.bio && user.bio !== "." ? user.bio : "N/A") : "N/A",
         rank: isRegistered ? rank : 0,
         level: isRegistered ? level : 0,
         xp: isRegistered ? xp : 0,
@@ -97,11 +97,9 @@ moon({
 ┃ *Name:* ${profileData.username}
 ┃ *Role:* *${displayRole}*
 ┃ *Level:* ${profileData.level}
-┃ *Wallet:* ${profileData.wallet.toLocaleString()}
-┃ *Bank:* ${profileData.bank.toLocaleString()}
 ┃ *Guild:* ${guildName}
 ┣━━━[ *BIO* ]━━━━━
-┃ ${profileData.bio}
+> ${profileData.bio}
 ┣━━━[ *INFO* ]━━━━
 ┃ *Id:* ${id}
 ┃ *Joined:* ${user?.createdAt ? moment(user.createdAt).format('DD/MM/YYYY') : "Unknown"}
