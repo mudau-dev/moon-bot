@@ -12,9 +12,9 @@ moon({
   async execute(sock, jid, sender, args, m, { reply }) {
     const link = `${config.WEB}/lagacy/new`;
     return reply(
+      `${link}` +
       `⚔️ *Moonlight Legacy*\n\n` +
-      `Create your permanent Legacy account and begin your adventure on the website:\n\n` +
-      `🔗 ${link}`
+      `Create your permanent Legacy account and begin your adventure on the website` 
     );
   },
 });
