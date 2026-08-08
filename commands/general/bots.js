@@ -17,6 +17,7 @@ const BOT_LIST = [
   { name: 'Oreki',   serverId: 'd47d45c4' },
   { name: 'Rimuru',  serverId: '53acc665' },
   { name: 'Cid',     serverId: '934069ee' },
+  { name: 'Lain',    serverId. '78976de0' },
 ];
 
 // Heartbeat is written every 30 s in index.js → allow a 75 s window so a
