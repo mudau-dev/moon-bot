@@ -1,5 +1,6 @@
 const { findOrCreateWhatsApp } = require('../../database/users');
 const config = require('../../config');
+const WEB = process.env.WEB || '';
 
 moon({
   name: "mwp",
@@ -14,7 +15,7 @@ moon({
       const isRegistered = user.moonId && !user.moonId.startsWith("moon_");
 
       if (!isRegistered) {
-        return reply("❌ You are not registered in Moonlight Haven. Please visit " + config.WEB + " to register.");
+        return reply("❌ You are not registered in Moonlight Haven. Please visit " + WEB + " to register.");
       }
 
       const maskedPassword = user.webPassword ? "**********" : "Not Set";
@@ -27,8 +28,8 @@ moon({
       text += `🎨 *Avatar:* ${user.avatarUrl ? "Set ✅" : "Not Set ❌"}\n`;
       text += `🖼️ *Banner:* ${user.bannerUrl ? "Set ✅" : "Not Set ❌"}\n`;
       text += `✨ *Frame:* ${user.profileFrame || "classic"}\n\n`;
-      text += `🔗 *Link:* ${config.WEB}/user/${user.moonId}\n\n`;
-      text += `> You can update your information at ${config.WEB}/profile/edit`;
+      text += `🔗 *Link:* ${WEB}/user/${user.moonId}\n\n`;
+      text += `> You can update your information at ${WEB}/profile/edit`;
 
       if (user.avatarUrl) {
         return await sock.sendMessage(jid, { 

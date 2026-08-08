@@ -1,12 +1,11 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../config');
 
 // Error logger that reports uncaught exceptions and unhandled rejections
 // and optionally notifies the bot owner via DM when the socket is available.
 
 let sockRef = null;
-let ownerJid = process.env.OWNER_JID || config.OWNER_JID || null;
+let ownerJid = process.env.OWNER_JID || null;
 
 function setSocket(sock) {
   sockRef = sock;

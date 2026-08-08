@@ -2,7 +2,7 @@
  * commands/legacy/start.js
  * .genesis — Redirects user to the web Legacy start page.
  */
-const config = require('../../config');
+const WEB = process.env.WEB || '';
 
 moon({
   name: 'genesis',
@@ -10,11 +10,7 @@ moon({
   category: 'legacy',
   description: 'Start your Moonlight Legacy journey on the website.',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const link = `${config.WEB}/lagacy/new`;
-    return reply(
-      `${link}` +
-      `⚔️ *Moonlight Legacy*\n\n` +
-      `Create your permanent Legacy account and begin your adventure on the website` 
-    );
+    const link = `${WEB}/lagacy/new`;
+    return reply(`⚔️ *MOONLIGHT LEGACY*\n\nCreate your permanent Legacy account and begin your adventure:\n${link}`);
   },
 });

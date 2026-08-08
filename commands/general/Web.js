@@ -140,24 +140,28 @@ moon({
   async execute(sock, jid, sender, args, m, { reply }) {
     try {
       const userNumber = sender.replace(/[^0-9]/g, '');
-      
-      // Use the async getOTP from database-backed store
-      const otpCode = await getOTP(userNumber);
+      const user = await User.findOne({
+        $or: [
+          { whatsappNumber: sender },
+          { userId: userNumber },
+          { phoneNumber: userNumber },
+          { moonId: userNumber },
+        ],
+      });
+      if (!user?.moonId) {
+        return reply('❌ Your WhatsApp account is not linked to a Moon ID yet. Use `.webp` to check your account.');
+      }
 
+      const otpCode = await getOTP(user.moonId);
       if (!otpCode) {
         return reply(
-          '❌ *No OTP request found.*\n\n' +
-          '> To reset your password:\n' +
-          '1. Go to the website and click *Forgot Password*\n' +
-          '2. Enter your number/ID and press *Confirm*\n' +
-          '3. Come back here and type `.otp`\n' +
-          '4. Enter the OTP on the website'
+          '❌ *No active OTP request found.*\n\n' +
+          '> Open *Forgot Password* on the website, enter your Moon ID, and request an OTP first.\n' +
+          '> Then return here and use `.otp` to receive it through this linked account.'
         );
       }
 
-      // Re-fetch user to get expiry time
-      const user = await User.findOne({ moonId: userNumber });
-      const timeLeft = user?.otpExpires ? Math.ceil((new Date(user.otpExpires).getTime() - Date.now()) / 1000) : 0;
+      const timeLeft = user.otpExpires ? Math.max(0, Math.ceil((new Date(user.otpExpires).getTime() - Date.now()) / 1000)) : 0;
 
       try {
         await sock.sendMessage(jid, { delete: m.key });

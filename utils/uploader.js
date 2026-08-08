@@ -29,4 +29,30 @@ async function uploadToTelegraph(pathOrBuffer) {
   }
 }
 
-module.exports = { uploadToTelegraph };
+async function uploadToCatbox(pathOrBuffer, options = {}) {
+  const form = new FormData();
+  const filename = options.filename || (typeof pathOrBuffer === 'string' ? path.basename(pathOrBuffer) : 'moonlight-upload.bin');
+  const content = typeof pathOrBuffer === 'string' ? fs.createReadStream(pathOrBuffer) : pathOrBuffer;
+
+  form.append('reqtype', 'fileupload');
+  form.append('fileToUpload', content, { filename });
+
+  try {
+    const response = await axios.post('https://catbox.moe/user/api.php', form, {
+      headers: form.getHeaders(),
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity,
+      timeout: 60_000,
+    });
+    const url = String(response.data || '').trim();
+    if (!/^https:\/\/files\.catbox\.moe\//.test(url)) {
+      throw new Error('Catbox returned an unexpected response.');
+    }
+    return url;
+  } catch (error) {
+    console.error('Catbox upload error:', error.message);
+    throw error;
+  }
+}
+
+module.exports = { uploadToTelegraph, uploadToCatbox };

@@ -108,6 +108,22 @@ async function fetchPokemonData(name) {
     };
 }
 
+async function fetchPokemonSpecies(name) {
+    const query = String(name).toLowerCase().replace(/\s+/g, "-");
+    const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${query}`);
+    return {
+        captureRate: Number.isFinite(data.capture_rate) ? data.capture_rate : null,
+        genderRate: Number.isFinite(data.gender_rate) ? data.gender_rate : -1,
+    };
+}
+
+function rollGender(genderRate) {
+    if (genderRate === -1) return 'Genderless';
+    if (genderRate === 0) return 'Male';
+    if (genderRate === 8) return 'Female';
+    return Math.random() < genderRate / 8 ? 'Female' : 'Male';
+}
+
 function generateIVs() {
     const rand = () => Math.floor(Math.random() * 32);
 
@@ -131,6 +147,8 @@ function calculateStat(base, iv, ev = 0, level = 50, hp = false) {
 
 module.exports = {
     fetchPokemonData,
+    fetchPokemonSpecies,
+    rollGender,
     generateIVs,
     calculateStat,
     getMoveData,

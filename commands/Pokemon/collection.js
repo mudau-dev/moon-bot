@@ -1,91 +1,186 @@
-const Pokemon = require("../../models/pokemon");
-const { generatePCImage } = require("../../utils/pcGenerator");
-const { generatePartyImage } = require("../../utils/partyGenerator");
-const { generateProfileImage } = require("../../utils/profileGenerator");
-const { fetchPokemonData } = require("../../utils/pokemonUtils");
+const { listPokemon, getPokemonByIndex, getCurrentHp, getMaxHp, formatPokemonDetails } = require('../../utils/pokemonStorage');
+const { fetchPokemonData, fetchPokemonSpecies, rollGender } = require('../../utils/pokemonUtils');
+
+async function enrichDetailMetadata(pokemon) {
+  if (pokemon.captureRate != null && pokemon.gender && pokemon.gender !== 'Unknown') return pokemon;
+
+  try {
+    const species = await fetchPokemonSpecies(pokemon.name);
+    let changed = false;
+    if (pokemon.captureRate == null && species.captureRate != null) {
+      pokemon.captureRate = species.captureRate;
+      changed = true;
+    }
+    if (!pokemon.gender || pokemon.gender === 'Unknown') {
+      pokemon.gender = rollGender(species.genderRate);
+      changed = true;
+    }
+    if (changed) await pokemon.save();
+  } catch (error) {
+    console.warn('[POKEMON METADATA]', error.message);
+  }
+
+  return pokemon;
+}
+
+function partyOverview(party, trainerName) {
+  const lines = [
+    `🌙 *@${trainerName} — CURRENT ACTIVE PARTY*`,
+    '━━━━━━━━━━━━━━━━━━━━',
+  ];
+
+  for (let index = 0; index < 6; index += 1) {
+    const pokemon = party[index];
+    if (!pokemon) {
+      lines.push(`*${index + 1}.* — Empty slot`);
+      continue;
+    }
+
+    lines.push(
+      `*${index + 1}.* *${(pokemon.nickname || pokemon.name).toUpperCase()}*`,
+      `   *HP:* ${getCurrentHp(pokemon)}/${getMaxHp(pokemon)}`,
+      `   *GENDER:* ${pokemon.gender || 'Unknown'}`,
+      `   *LEVEL:* ${pokemon.level ?? 1}`,
+      ''
+    );
+  }
+
+  lines.push('> Use `.party <index>` to view one Pokémon in full detail.');
+  return lines.join('\n');
+}
+
+function pcOverview(pokemons, trainerName) {
+  const lines = [
+    `💻 *@${trainerName} — CURRENT PC*`,
+    '━━━━━━━━━━━━━━━━━━━━',
+  ];
+
+  if (!pokemons.length) {
+    lines.push('Your PC is empty.');
+  } else {
+    pokemons.forEach((pokemon, index) => {
+      lines.push(`${index + 1}. *${(pokemon.nickname || pokemon.name).toUpperCase()}*`);
+    });
+  }
+
+  lines.push('', '> Use `.pc <index>` to view a Pokémon with its artwork and full details.');
+  lines.push('> Use `.t2party <index>` to move it into your active party.');
+  return lines.join('\n');
+}
 
 moon({
-    name: "pc",
-    category: "Pokémon",
-    description: "View your Pokémon collection",
-    async execute(sock, jid, sender, args, m, { reply }) {
-        const { findOrCreateWhatsApp } = require("../../database/users");
-        const user = await findOrCreateWhatsApp(sender);
-        const userId = user.moonId || sender;
-        const page = parseInt(args[0]) || 1;
-        const limit = 30;
-        const skip = (page - 1) * limit;
-        const query = { $or: [{ userId: sender }, { userId: userId }] };
-        const total = await Pokemon.countDocuments(query);
-        const pokemons = await Pokemon.find(query).skip(skip).limit(limit).sort({ caughtAt: -1 });
-        if (pokemons.length === 0) return reply("❌ Your PC is empty!");
-        const buffer = await generatePCImage({ pokemons, page, total, trainerName: user.username || m.pushName || "Trainer" });
-        return sock.sendMessage(jid, { image: buffer, caption: `📱 *YOUR POKÉMON COLLECTION* (Page ${page})\nTotal: ${total} Pokémon` }, { quoted: m });
+  name: 'party',
+  category: 'Pokémon',
+  description: 'View your active party or detailed stats for a party slot.',
+  usage: '.party [index]',
+  async execute(sock, jid, sender, args, m, { reply, pushName }) {
+    const selectedIndex = Number.parseInt(args[0], 10);
+
+    if (args[0] && (!Number.isInteger(selectedIndex) || selectedIndex < 1)) {
+      return reply('❌ Usage: `.party` or `.party <party_index>`');
     }
+
+    if (selectedIndex) {
+      const entry = await getPokemonByIndex(sender, 'party', selectedIndex);
+      if (!entry) return reply('❌ No Pokémon exists at that party index.');
+
+      const pokemon = await enrichDetailMetadata(entry.pokemon);
+      return reply(formatPokemonDetails(pokemon, { title: `PARTY SLOT ${selectedIndex}: ${(pokemon.nickname || pokemon.name).toUpperCase()}` }));
+    }
+
+    const { pokemons } = await listPokemon(sender, 'party', 6);
+    if (!pokemons.length) {
+      return reply('❌ Your party is empty. Use `.t2party <pc_index>` to add a Pokémon from your PC.');
+    }
+
+    await Promise.all(pokemons.map((pokemon) => enrichDetailMetadata(pokemon)));
+    return reply(partyOverview(pokemons, pushName || 'Trainer'));
+  },
 });
 
 moon({
-    name: "party",
-    category: "Pokémon",
-    description: "View your active Pokémon party",
-    async execute(sock, jid, sender, args, m, { reply }) {
-        const { findOrCreateWhatsApp } = require("../../database/users");
-        const user = await findOrCreateWhatsApp(sender);
-        const userId = user.moonId || sender;
-        const query = { $or: [{ userId: sender }, { userId: userId }], location: "party" };
-        const party = await Pokemon.find(query).limit(6).sort({ caughtAt: 1 });
-        if (party.length === 0) return reply("❌ Your party is empty! Use `.p2party <pokemonId>` to add Pokémon to your party.");
-        const buffer = await generatePartyImage({ pokemons: party, trainerName: user.username || m.pushName || "Trainer" });
-        return sock.sendMessage(jid, { image: buffer, caption: `🎒 *YOUR POKÉMON PARTY*` }, { quoted: m });
+  name: 'pc',
+  category: 'Pokémon',
+  description: 'View your PC or detailed stats for a stored Pokémon.',
+  usage: '.pc [index]',
+  async execute(sock, jid, sender, args, m, { reply, pushName }) {
+    const selectedIndex = Number.parseInt(args[0], 10);
+
+    if (args[0] && (!Number.isInteger(selectedIndex) || selectedIndex < 1)) {
+      return reply('❌ Usage: `.pc` or `.pc <pc_index>`');
     }
+
+    if (selectedIndex) {
+      const entry = await getPokemonByIndex(sender, 'pc', selectedIndex);
+      if (!entry) return reply('❌ No Pokémon exists at that PC index.');
+
+      const pokemon = await enrichDetailMetadata(entry.pokemon);
+      let sprite;
+      try {
+        sprite = (await fetchPokemonData(pokemon.name)).sprite;
+      } catch (error) {
+        console.warn('[PC DETAIL SPRITE]', error.message);
+      }
+
+      const caption = formatPokemonDetails(pokemon, {
+        title: `PC SLOT ${selectedIndex}: ${(pokemon.nickname || pokemon.name).toUpperCase()}`,
+      });
+      if (sprite) {
+        return sock.sendMessage(jid, { image: { url: sprite }, caption }, { quoted: m });
+      }
+      return reply(caption);
+    }
+
+    const { pokemons } = await listPokemon(sender, 'pc');
+    return reply(pcOverview(pokemons, pushName || 'Trainer'));
+  },
 });
 
 moon({
-    name: "pokemon",
-    aliases: ["profile", "trainer"],
-    category: "Pokémon",
-    description: "View your trainer profile and Pokémon stats",
-    async execute(sock, jid, sender, args, m, { reply }) {
-        const { findOrCreateWhatsApp } = require("../../database/users");
-        const user = await findOrCreateWhatsApp(sender);
-        const userId = user.moonId || sender;
-        const query = { $or: [{ userId: sender }, { userId: userId }] };
-        const total = await Pokemon.countDocuments(query);
-        const shinies = await Pokemon.countDocuments({ ...query, isShiny: true });
-        const party = await Pokemon.find({ ...query, location: "party" }).limit(6);
-        const buffer = await generateProfileImage({
-            name: m.pushName || user.username || "Trainer",
-            total,
-            shinies,
-            party
-        });
-        return sock.sendMessage(jid, { image: buffer, caption: `👤 *TRAINER PROFILE: ${(m.pushName || user.username || "Trainer").toUpperCase()}*` }, { quoted: m });
-    }
+  name: 'pokemon',
+  aliases: ['profile', 'trainer'],
+  category: 'Pokémon',
+  description: 'View a summary of your Pokémon collection.',
+  async execute(sock, jid, sender, args, m, { reply, pushName }) {
+    const { pokemons } = await listPokemon(sender);
+    const party = pokemons.filter((pokemon) => pokemon.location === 'party').slice(0, 6);
+    const shinies = pokemons.filter((pokemon) => pokemon.isShiny).length;
+
+    return reply([
+      `🌙 *${(pushName || 'Trainer').toUpperCase()} — POKÉMON TRAINER PROFILE*`,
+      '━━━━━━━━━━━━━━━━━━━━',
+      `*Total Pokémon:* ${pokemons.length}`,
+      `*Active Party:* ${party.length}/6`,
+      `*Shiny Pokémon:* ${shinies}`,
+      '',
+      '> Use `.party` to view your active team and `.pc` to view stored Pokémon.',
+    ].join('\n'));
+  },
 });
 
 moon({
-    name: "poke",
-    category: "Pokémon",
-    description: "View details of a specific Pokémon",
-    async execute(sock, jid, sender, args, m, { reply }) {
-        const { findOrCreateWhatsApp } = require("../../database/users");
-        const user = await findOrCreateWhatsApp(sender);
-        const userId = user.moonId || sender;
-        const id = args[0];
-        if (!id) return reply("❌ Usage: .poke <pokemon_id>");
-        const p = await Pokemon.findOne({ $or: [{ userId: sender }, { userId: userId }], pokemonId: id });
-        if (!p) return reply("❌ Pokémon not found in your collection.");
-        const data = await fetchPokemonData(p.name);
-        let text = `📜 *POKÉMON DETAILS: ${p.name.toUpperCase()}* 📜\n\n`;
-        text += `🆔 ID: \`${p.pokemonId}\`\n`;
-        text += `🧬 Type: ${p.type1}${p.type2 ? "/" + p.type2 : ""}\n`;
-        text += `📈 Level: ${p.level}\n`;
-        text += `❤️ HP: ${Math.ceil(p.hp)}\n`;
-        text += `⚔️ ATK: ${p.attack} | 🛡️ DEF: ${p.defense}\n`;
-        text += `🔮 SP.ATK: ${p.spAtk} | 🌀 SP.DEF: ${p.spDef}\n`;
-        text += `⚡ SPEED: ${p.speed}\n\n`;
-        text += `✨ IVs: ${p.iv.hp}/${p.iv.attack}/${p.iv.defense}/${p.iv.spAtk}/${p.iv.spDef}/${p.iv.speed} (${Math.round((Object.values(p.iv).reduce((a, b) => a + b, 0) / 186) * 100)}%)\n`;
-        text += `🤺 Moves: ${p.moves.join(", ")}`;
-        return sock.sendMessage(jid, { image: { url: data.sprite }, caption: text }, { quoted: m });
+  name: 'poke',
+  category: 'Pokémon',
+  description: 'View a Pokémon you own by its unique ID.',
+  usage: '.poke <pokemon_id>',
+  async execute(sock, jid, sender, args, m, { reply }) {
+    const pokemonId = args[0];
+    if (!pokemonId) return reply('❌ Usage: `.poke <pokemon_id>`');
+
+    const { owner, pokemons } = await listPokemon(sender);
+    const pokemon = pokemons.find((entry) => entry.pokemonId === pokemonId);
+    if (!pokemon) return reply('❌ Pokémon not found in your collection.');
+
+    await enrichDetailMetadata(pokemon);
+    let sprite;
+    try {
+      sprite = (await fetchPokemonData(pokemon.name)).sprite;
+    } catch (error) {
+      console.warn('[POKE DETAIL SPRITE]', error.message);
     }
+
+    const caption = formatPokemonDetails(pokemon);
+    if (sprite) return sock.sendMessage(jid, { image: { url: sprite }, caption }, { quoted: m });
+    return reply(caption);
+  },
 });

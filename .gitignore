@@ -10,9 +10,6 @@ auth_info_baileys/
 # Environment
 .env
 
-# Local configuration
-config.js
-
 # Logs
 logs/
 *.log

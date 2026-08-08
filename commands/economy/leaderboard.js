@@ -1,15 +1,13 @@
-const config = require('../../config');
+const WEB = process.env.WEB || '';
 
 moon({
-  name: 'leaderboard,
+  name: 'leaderboard',
   aliases: ['lb'],
-  category: 'economy,
-  description: 'Start your Moonlight Legacy journey on the website.',
+  category: 'economy',
+  description: 'Open the Moonlight Haven leaderboard.',
+  usage: '.leaderboard',
   async execute(sock, jid, sender, args, m, { reply }) {
-    const link = `${config.WEB}/leaderboard`;
-    return reply(
-      `${link}` +
-      `> follow this link to see pur top moonlight haven members`
-      );
-   },
+    const link = `${WEB}/leaderboard`;
+    return reply(`🏆 *MOONLIGHT HAVEN LEADERBOARD*\n\nView the top Moonlight Haven members here:\n${link}`);
+  },
 });

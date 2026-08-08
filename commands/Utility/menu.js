@@ -62,7 +62,7 @@ moon({
       const username  = m.pushName || sender.split('@')[0];
       const prefix    = config.PREFIX;
       const botName   = config.BOT_NAME;
-      const ownerName = config.OWNER_NAME;
+      const ownerName = process.env.OWNER_NAME || 'Moonlight Haven Team';
 
       // ── BUILD HEADER ────────────────────────────────────────────────────
       let text = `╭──❀ 𝕄𝕆𝕆ℕ𝕃𝕀𝔾ℍ𝕋 ❀──❀\n`;

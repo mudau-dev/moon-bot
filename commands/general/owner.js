@@ -1,4 +1,5 @@
 const config = require('../../config');
+const OWNER_NAME = process.env.OWNER_NAME || 'Moonlight Haven Team';
 
 moon({
   name: "owner",
@@ -12,7 +13,7 @@ moon({
 👑 *OWNER INFORMATION*
 ━━━━━━━━━━━━━━━━━━
 ━━━━━━━━━━━━━━━━━━
-hy my name is *${config.BOT_NAME}* my owner is *${config.OWNER_NAME}* .i was created to help with Moonlight haven community.where all things that happens at night dies in the morning 
+Hello, my name is *${config.BOT_NAME}* and my owner is *${OWNER_NAME}*. I was created to support the Moonlight Haven community.
 
 here are my useful commands you can use
 - \`.menu\` to see all my commands

@@ -14,7 +14,7 @@ const { Sticker, StickerTypes } = require("wa-sticker-formatter");
 // CONSTANTS & IDENTITY
 // ─────────────────────────────────────────────────────────────────
 const BOT_NAME = config.BOT_NAME || "Moonlight";
-const OWNER_NAME = config.OWNER_NAME || "Kaizel"; // Default to Kaizel as per user's request
+const OWNER_NAME = process.env.OWNER_NAME || 'Moonlight Haven Team';
 // Names that trigger the "crush" behaviour
 const LORD_NAMES = ["kai", "kaizuru", "kaizel"];
 

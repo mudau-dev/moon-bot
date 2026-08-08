@@ -70,40 +70,16 @@ async function handleForceAdd(sock, update) {
  */
 function startAutoUpdate(sock) {
   const rootDir = path.join(__dirname, '../');
-  const repoUrl = "https://github.com/mudau-dev/moon-bot.git";
-  
-  let remote = repoUrl;
-  if (config.GITHUB_TOKEN) {
-    remote = repoUrl.replace("https://", `https://${config.GITHUB_TOKEN}@`);
-  }
-
   setInterval(() => {
-    // Step 1: Update remote URL
-    exec(`git remote set-url origin ${remote}`, { cwd: rootDir }, (err) => {
-      if (err) return;
+    exec('git fetch origin main && git status --short --branch', { cwd: rootDir }, (fetchErr, stdout) => {
+      if (fetchErr) return;
+      if (!stdout.includes('behind')) return;
 
-      // Step 2: Check for updates (fetch + check status)
-      exec('git fetch origin main && git status', { cwd: rootDir }, (fetchErr, stdout) => {
-        // Reset remote URL
-        exec(`git remote set-url origin ${repoUrl}`, { cwd: rootDir });
-
-        if (fetchErr) return;
-
-        // If the local branch is behind origin/main
-        if (stdout.includes('Your branch is behind')) {
-          console.log('detected new changes updating');
-          
-          // Re-set remote for pull
-          exec(`git remote set-url origin ${remote}`, { cwd: rootDir }, () => {
-            exec('git pull', { cwd: rootDir }, (pullErr) => {
-              exec(`git remote set-url origin ${repoUrl}`, { cwd: rootDir });
-              
-              if (!pullErr) {
-                console.log('[AUTO-UPDATE] Update successful. Restarting...');
-                setTimeout(() => process.exit(0), 5000);
-              }
-            });
-          });
+      console.log('[AUTO-UPDATE] New commits detected. Updating…');
+      exec('git pull --ff-only origin main', { cwd: rootDir }, (pullErr) => {
+        if (!pullErr) {
+          console.log('[AUTO-UPDATE] Update successful. Restarting…');
+          setTimeout(() => process.exit(0), 5000);
         }
       });
     });

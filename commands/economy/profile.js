@@ -39,7 +39,7 @@ moon({
       const target = contextInfo?.mentionedJid?.[0] || contextInfo?.participant || sender;
       const id = target?.split('@')[0];
       
-      const config = require("../../config");
+      const WEB = process.env.WEB || '';
       const userDoc = await findOrCreateWhatsApp(target);
       const user = userDoc ? (userDoc.toObject ? userDoc.toObject() : userDoc) : null;
       
@@ -108,7 +108,7 @@ moon({
       if (!isRegistered) {
         caption += `🚫 User not registered in Moonlight Haven`;
       } else {
-        caption += `*Profile:* ${config.WEB}/user/${user.moonId}`;
+        caption += `*Profile:* ${WEB}/user/${user.moonId}`;
       }
 
       await sock.sendMessage(jid, { image: buffer, caption, mentions: [target] }, { quoted: m });
