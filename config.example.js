@@ -4,7 +4,7 @@ module.exports = {
   MENU_IMAGE: "",
   SESSION_FOLDER: "./sessions",
   
-PREFIX: process.env.PREFIX,
+PREFIX: ".",
   MOONLIGHT_IMAGE: process.env.MOONLIGHT_IMAGE,
               WEB: process.env.WEB,
        OWNER_NAME: process.env.OWNER_NAME,
